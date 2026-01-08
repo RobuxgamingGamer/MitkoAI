@@ -6,25 +6,35 @@
 <title>MitkoAI-mini</title>
 
 <style>
-/* ================= BASE ================= */
+/* =========================
+   GLOBAL / THEME
+========================= */
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont;
-  background: radial-gradient(circle at top, #0a1022, #02040a);
+  background: radial-gradient(circle at top, #0a0f1e, #02030a);
   color: #eaf2ff;
   overflow: hidden;
 }
 
-/* ================= HEADER ================= */
+/* =========================
+   HEADER
+========================= */
 header {
   padding: 14px;
   text-align: center;
-  background: linear-gradient(135deg, #1e3cff, #4da3ff);
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #1e3cff, #4da3ff);
+  color: #000;
+  box-shadow: 0 4px 18px rgba(77,163,255,0.6);
 }
 
-/* ================= TABS ================= */
+/* =========================
+   TABS
+========================= */
 #tabs {
   display: flex;
   background: #060b18;
@@ -32,18 +42,22 @@ header {
 
 .tab {
   flex: 1;
-  padding: 12px;
   text-align: center;
+  padding: 12px;
   cursor: pointer;
-  border-bottom: 2px solid transparent;
+  opacity: 0.6;
+  font-weight: 700;
 }
 
 .tab.active {
-  border-bottom: 2px solid #4da3ff;
+  opacity: 1;
   color: #4da3ff;
+  border-bottom: 2px solid #4da3ff;
 }
 
-/* ================= VIEWS ================= */
+/* =========================
+   VIEWS
+========================= */
 .view {
   display: none;
   height: calc(100vh - 140px);
@@ -55,7 +69,9 @@ header {
   display: block;
 }
 
-/* ================= CHAT ================= */
+/* =========================
+   CHAT BUBBLES
+========================= */
 .bubble {
   max-width: 75%;
   padding: 14px 18px;
@@ -73,16 +89,18 @@ header {
 .user {
   margin-left: auto;
   background: linear-gradient(135deg, #2b5cff, #4da3ff);
-  box-shadow: 0 0 12px rgba(77,163,255,0.6);
+  box-shadow: 0 0 14px rgba(77,163,255,0.6);
 }
 
 .ai {
   background: linear-gradient(135deg, #0b1a33, #102b55);
   border: 1px solid #4da3ff;
-  box-shadow: 0 0 14px rgba(77,163,255,0.35);
+  box-shadow: 0 0 16px rgba(77,163,255,0.4);
 }
 
-/* ================= INPUT ================= */
+/* =========================
+   INPUT BAR
+========================= */
 #inputBar {
   position: fixed;
   bottom: 0;
@@ -91,7 +109,7 @@ header {
   display: flex;
   gap: 10px;
   padding: 12px;
-  background: rgba(5,10,25,0.95);
+  background: rgba(5,10,25,0.96);
   border-top: 1px solid #2b5cff;
 }
 
@@ -103,21 +121,25 @@ header {
   outline: none;
   background: #0b1428;
   color: #eaf2ff;
+  box-shadow: inset 0 0 10px rgba(77,163,255,0.35);
 }
 
 button {
   padding: 14px 18px;
   border-radius: 14px;
   border: none;
+  font-weight: 700;
   background: linear-gradient(135deg, #2b5cff, #4da3ff);
-  color: white;
-  font-weight: 600;
+  color: #fff;
+  box-shadow: 0 0 14px rgba(77,163,255,0.7);
 }
 
-/* ================= UPDATES ================= */
+/* =========================
+   UPDATES
+========================= */
 .update {
-  margin-bottom: 16px;
   padding: 14px;
+  margin-bottom: 14px;
   border-radius: 14px;
   background: #0b1428;
   border: 1px solid #4da3ff;
@@ -127,58 +149,70 @@ button {
 
 <body>
 
-<header>MitkoAI-mini — Intelligence-First</header>
+<header>MitkoAI-mini — Memory Build</header>
 
 <div id="tabs">
   <div class="tab active" onclick="switchTab('chat')">Chat</div>
   <div class="tab" onclick="switchTab('updates')">Updates</div>
 </div>
 
-<!-- ================= CHAT VIEW ================= -->
+<!-- CHAT -->
 <div id="chat" class="view active">
   <div class="bubble ai">
     MitkoAI-mini online.<br>
-    Intelligence-first mode active.
+    Memory initialized. Ready to help.
   </div>
 </div>
 
-<!-- ================= UPDATES VIEW ================= -->
+<!-- UPDATES -->
 <div id="updates" class="view">
   <div class="update">
     <b>MitkoAI-mini</b><br>
-    Stable lightweight logic core.
+    Stable intelligence core with memory.
   </div>
-
   <div class="update">
-    <b>Design</b><br>
-    Dark neon UI, readability first.
+    <b>Math</b><br>
+    Calculator + explanations + big-number theory.
   </div>
-
   <div class="update">
-    <b>Logic</b><br>
-    Deterministic responses + math support.
+    <b>Memory</b><br>
+    Remembers recent context and topics.
   </div>
 </div>
 
-<!-- ================= INPUT ================= -->
+<!-- INPUT -->
 <div id="inputBar">
   <input id="userInput" placeholder="Type a message…" />
   <button onclick="sendMessage()">Send</button>
 </div>
 
 <script>
+/* =========================
+   MEMORY SYSTEM
+========================= */
+const memory = {
+  recentMessages: [],
+  topics: new Set(),
+  max: 6
+};
+
+function remember(text) {
+  memory.recentMessages.push(text);
+  if (memory.recentMessages.length > memory.max) {
+    memory.recentMessages.shift();
+  }
+
+  if (text.includes("math")) memory.topics.add("math");
+  if (text.includes("infinity")) memory.topics.add("infinity");
+  if (text.includes("graham")) memory.topics.add("big numbers");
+}
+
+/* =========================
+   CHAT HELPERS
+========================= */
 const chat = document.getElementById("chat");
 const input = document.getElementById("userInput");
 
-/* ================= TABS ================= */
-function switchTab(name) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-  document.querySelector(`.tab[onclick*="${name}"]`).classList.add("active");
-  document.getElementById(name).classList.add("active");
-}
-
-/* ================= CHAT ================= */
 function addBubble(text, type) {
   const div = document.createElement("div");
   div.className = "bubble " + type;
@@ -187,38 +221,95 @@ function addBubble(text, type) {
   chat.scrollTop = chat.scrollHeight;
 }
 
-/* ================= LOGIC ================= */
-function respond(text) {
-  const t = text.toLowerCase();
-
-  // Math
-  if (/^[0-9\+\-\*\/\.\(\)\s]+$/.test(t)) {
-    try { return "Result: " + eval(t); }
-    catch { return "Math error."; }
-  }
-
-  if (t.includes("who are you"))
-    return "I am MitkoAI-mini. A compact reasoning system.";
-
-  if (t.includes("how are you"))
-    return "Operational and stable.";
-
-  if (t.includes("feel"))
-    return "I do not experience feelings. I analyze language.";
-
-  if (t.includes("future"))
-    return "Future builds increase depth, not noise.";
-
-  if (t.includes("angry"))
-    return "Emotion detected. Slowing reasoning pace.";
-
-  return "Understood. Continue.";
+/* =========================
+   TAB SWITCH
+========================= */
+function switchTab(name) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.querySelector(`.tab[onclick*="${name}"]`).classList.add("active");
+  document.getElementById(name).classList.add("active");
 }
 
-/* ================= SEND ================= */
+/* =========================
+   MATH ENGINE
+========================= */
+function normalizeMath(text) {
+  return text.toLowerCase()
+    .replace(/how much is|what is|calculate|solve|equals|=/g, "")
+    .replace(/plus/g, "+")
+    .replace(/minus/g, "-")
+    .replace(/times|multiplied by|x/g, "*")
+    .replace(/divided by|over/g, "/")
+    .replace(/\s+/g, "")
+    .trim();
+}
+
+function isMath(text) {
+  const expr = normalizeMath(text);
+  return /^[0-9+\-*/().]+$/.test(expr);
+}
+
+function computeMath(text) {
+  const expr = normalizeMath(text);
+  try {
+    const result = Function(`"use strict";return (${expr})`)();
+    return `🧮 Let’s solve it step by step.\n\nExpression: ${expr}\nResult: ${result}\n\nThis follows standard order of operations.`;
+  } catch {
+    return "❌ I couldn’t calculate that expression.";
+  }
+}
+
+/* =========================
+   BIG NUMBER EXPLANATIONS
+========================= */
+function bigNumber(text) {
+  if (text.includes("infinity"))
+    return "♾️ Infinity isn’t a number. It represents something without an end.";
+
+  if (text.includes("graham"))
+    return "🤯 Graham’s number is a finite number so large it cannot be written or stored in the universe.";
+
+  if (text.includes("tree"))
+    return "🌳 TREE(3) grows faster than Graham’s number and comes from graph theory.";
+
+  if (text.includes("busy") || text.includes("b("))
+    return "🖥️ Busy Beaver numbers describe limits of computation and grow faster than any computable function.";
+
+  return null;
+}
+
+/* =========================
+   RESPONSE CORE
+========================= */
+function respond(text) {
+  const t = text.toLowerCase();
+  remember(t);
+
+  const big = bigNumber(t);
+  if (big) return big;
+
+  if (isMath(t)) return computeMath(t);
+
+  if (t.includes("who are you"))
+    return "I am MitkoAI-mini. A compact intelligence system with memory.";
+
+  if (t.includes("memory"))
+    return `I remember the last ${memory.recentMessages.length} messages and topics: ${[...memory.topics].join(", ") || "none yet"}.`;
+
+  if (t.includes("how are you"))
+    return "Stable and operational.";
+
+  return "Understood. You can continue — I’m following.";
+}
+
+/* =========================
+   SEND
+========================= */
 function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
+
   addBubble(text, "user");
   input.value = "";
 
