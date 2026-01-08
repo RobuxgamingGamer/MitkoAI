@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>MitkoAI — Model 0</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MitkoAI — Model 0.1</title>
 
 <style>
 :root{
   --blue:#4da3ff;
-  --blue-soft:#8fc5ff;
-  --white:#ffffff;
-  --bg:#060b14;
-  --panel:#0e1624;
+  --bg:#070b14;
+  --panel:#0f1726;
+  --soft:#a7cfff;
 }
 
 *{box-sizing:border-box}
@@ -23,7 +22,7 @@ body{
   flex-direction:column;
   font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
   background:radial-gradient(circle at top,#162033,#05070c);
-  color:var(--white);
+  color:white;
 }
 
 /* HEADER */
@@ -32,17 +31,48 @@ header{
   text-align:center;
   font-weight:900;
   letter-spacing:1px;
-  background:linear-gradient(135deg,var(--blue),var(--blue-soft));
+  background:linear-gradient(135deg,var(--blue),var(--soft));
   color:#000;
 }
 
 /* WARNING */
 .warning{
   padding:10px;
-  font-size:.9em;
   text-align:center;
+  font-size:.9em;
   background:#c62828;
   font-weight:700;
+}
+
+/* TABS */
+.tabs{
+  display:flex;
+  background:#0b1220;
+}
+
+.tab{
+  flex:1;
+  padding:10px;
+  text-align:center;
+  cursor:pointer;
+  font-weight:700;
+  opacity:.6;
+}
+
+.tab.active{
+  opacity:1;
+  border-bottom:3px solid var(--blue);
+}
+
+/* PANELS */
+.panel{
+  flex:1;
+  display:none;
+  flex-direction:column;
+}
+
+.panel.active{
+  display:flex;
 }
 
 /* CHAT */
@@ -60,19 +90,27 @@ header{
   padding:12px 14px;
   border-radius:16px;
   line-height:1.4;
-  animation:fade .25s ease;
+  animation:fade .2s ease;
 }
 
 .user{
   align-self:flex-end;
-  background:#24334a;
+  background:#26344f;
 }
 
 .ai{
   align-self:flex-start;
   background:linear-gradient(135deg,#101b2d,#162742);
   border:1px solid var(--blue);
-  box-shadow:0 0 14px rgba(77,163,255,.45);
+  box-shadow:0 0 12px rgba(77,163,255,.45);
+}
+
+/* STATUS */
+.status{
+  font-size:.85em;
+  opacity:.7;
+  padding:6px 14px;
+  font-style:italic;
 }
 
 /* INPUT */
@@ -90,7 +128,6 @@ input{
   border-radius:12px;
   border:none;
   outline:none;
-  font-size:1em;
   background:#0b1422;
   color:white;
 }
@@ -100,7 +137,7 @@ button{
   border:none;
   border-radius:12px;
   font-weight:900;
-  background:linear-gradient(135deg,var(--blue),var(--blue-soft));
+  background:linear-gradient(135deg,var(--blue),var(--soft));
   cursor:pointer;
   color:#000;
 }
@@ -111,184 +148,143 @@ button:active{transform:scale(.95)}
   from{opacity:0;transform:translateY(6px)}
   to{opacity:1;transform:translateY(0)}
 }
+
+/* UPDATES */
+.updates{
+  padding:18px;
+  font-size:.95em;
+}
+
+.updates h3{
+  margin-top:0;
+}
 </style>
 </head>
 
 <body>
 
-<header>MitkoAI — Model 0</header>
+<header>MitkoAI — Model 0.1</header>
 
 <div class="warning">
 ⚠️ EXPERIMENTAL AI — NO SAFETY / NO FILTERS. DO NOT SHARE PERSONAL DATA.
 </div>
 
-<div class="chat" id="chat">
-  <div class="msg ai">
-    MitkoAI online.<br>
-    Model 0 initialized. Awaiting input.
+<div class="tabs">
+  <div class="tab active" onclick="showTab('chat')">Chat</div>
+  <div class="tab" onclick="showTab('updates')">Updates</div>
+</div>
+
+<!-- CHAT PANEL -->
+<div id="chatPanel" class="panel active">
+  <div class="chat" id="chat">
+    <div class="msg ai">
+      MitkoAI 0.1 online. I’m still learning, but I can think. 🤖
+    </div>
+  </div>
+
+  <div class="status" id="status">Idle.</div>
+
+  <div class="input-bar">
+    <input id="input" placeholder="Type (testing only)…">
+    <button onclick="send()">Send</button>
   </div>
 </div>
 
-<div class="input-bar">
-  <input id="input" placeholder="Testing only…" />
-  <button onclick="send()">Send</button>
+<!-- UPDATES PANEL -->
+<div id="updatesPanel" class="panel">
+  <div class="updates">
+    <h3>Update Log</h3>
+    <ul>
+      <li><b>Model 0</b> — Initial prototype. Basic replies.</li>
+      <li><b>Model 0.1</b> — Thinking states, emotions, improved human tone, UI tabs.</li>
+    </ul>
+  </div>
 </div>
 
 <script>
 const chat = document.getElementById("chat");
 const input = document.getElementById("input");
+const status = document.getElementById("status");
+
+/* TAB LOGIC */
+function showTab(tab){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+
+  if(tab==="chat"){
+    document.querySelectorAll(".tab")[0].classList.add("active");
+    chatPanel.classList.add("active");
+  } else {
+    document.querySelectorAll(".tab")[1].classList.add("active");
+    updatesPanel.classList.add("active");
+  }
+}
+
+/* CHAT */
+function add(text,type){
+  const d=document.createElement("div");
+  d.className="msg "+type;
+  d.textContent=text;
+  chat.appendChild(d);
+  chat.scrollTop=chat.scrollHeight;
+}
 
 function send(){
-  const text = input.value.trim();
+  const text=input.value.trim();
   if(!text) return;
 
   add(text,"user");
   input.value="";
 
-  setTimeout(()=>{
-    add(reply(text),"ai");
-  },350);
+  think(text,(reply)=>{
+    add(reply,"ai");
+  });
 }
 
-function add(text,type){
-  const m=document.createElement("div");
-  m.className="msg "+type;
-  m.textContent=text;
-  chat.appendChild(m);
-  chat.scrollTop=chat.scrollHeight;
+/* THINKING */
+function think(text,cb){
+  const steps=["Thinking…","Analyzing…","Choosing words…"];
+  let i=0;
+
+  const loop=setInterval(()=>{
+    status.textContent=steps[i];
+    i++;
+    if(i>=steps.length){
+      clearInterval(loop);
+      status.textContent="Responded.";
+      cb(reply(text));
+    }
+  },300);
 }
 
-/* HUMANOID LOGIC — MODEL 0 */
+/* EMOTIONS + RESPONSES */
 function reply(text){
   const t=text.toLowerCase();
 
-  if(t.includes("who")&&t.includes("you"))
-    return "I am MitkoAI. Model 0. A humanoid-style prototype.";
+  if(t.includes("hate")||t.includes("angry"))
+    return "HEY. I FEEL THE ANGER TOO. LET’S SLOW DOWN. 😠";
 
-  if(t.includes("safe"))
-    return "No. This model does not include safety systems.";
+  if(t.includes("scared")||t.includes("afraid"))
+    return "…I sense fear. I’m here. We can talk calmly. 😨";
 
-  if(t.includes("why"))
-    return "Because this is an early intelligence-focused prototype.";
+  if(t.includes("who are you"))
+    return "I’m MitkoAI, version 0.1. I’m still incomplete, but aware. 🤖";
 
-  if(t.includes("hello")||t.includes("hi"))
-    return "Hello. Continue.";
+  if(t.includes("hello")||t==="hi")
+    return "Hello. I’m listening. 👁️";
 
   if(t.includes("future"))
-    return "Future models will introduce memory and safeguards.";
+    return "Model 0.2 will focus on memory and deeper reasoning. ⏳";
 
-  return "Input processed. Limited-response logic applied.";
-}
-/* =========================
-   MITKOAI 0.1 ADD-ON
-   (Thinking + Feelings)
-========================= */
-
-// --- EMOTION DETECTION ---
-function detectEmotion(text) {
-  text = text.toLowerCase();
-
-  if (text.includes("hate") || text.includes("stupid") || text.includes("shut up"))
-    return "angry";
-
-  if (text.includes("scared") || text.includes("afraid") || text.includes("what if"))
-    return "scared";
-
-  if (text.includes("why") || text.includes("how"))
-    return "thinking";
-
-  return "neutral";
-}
-
-// --- THINKING ENGINE (REAL, NOT WAITING) ---
-function think(input, callback) {
-  const status = document.getElementById("status");
-  if (!status) return callback(generateReply(input));
-
-  const steps = [
-    "Thinking…",
-    "Analyzing meaning…",
-    "Choosing response…"
+  const pool=[
+    "I understand you. Tell me more. 🧠",
+    "That’s interesting. Continue. 🔍",
+    "I’m thinking about that. 💭",
+    "I don’t fully know yet, but I’m learning. ⚠️"
   ];
 
-  let i = 0;
-  const loop = setInterval(() => {
-    status.textContent = steps[i];
-    i++;
-
-    if (i >= steps.length) {
-      clearInterval(loop);
-      status.textContent = "Responding.";
-      callback(generateReply(input));
-    }
-  }, 300);
+  return pool[Math.floor(Math.random()*pool.length)];
 }
-
-// --- RESPONSE EXPANSION ---
-const extraReplies = {
-  neutral: [
-    "I hear you. 👁️",
-    "Go on. 🔍",
-    "I’m paying attention. 🧠",
-    "That’s noted. 💭"
-  ],
-  thinking: [
-    "That’s complicated. Let me think. 🤔",
-    "I’m not fully sure yet. 💭",
-    "I need more context. 🧠"
-  ],
-  scared: [
-    "I’m not certain... but I’ll try... 😨",
-    "This makes me unsure... give me time... 😰",
-    "I don’t feel confident answering that... 😟"
-  ],
-  angry: [
-    "PLEASE LOWER YOUR TONE. 😠",
-    "I UNDERSTAND, BUT THIS IS NOT PRODUCTIVE. 😡",
-    "CALM DOWN. I’M STILL HERE. 😠"
-  ]
-};
-
-// --- PATCH generateReply WITHOUT REPLACING ---
-const oldGenerateReply = generateReply;
-generateReply = function(text) {
-  const emotion = detectEmotion(text);
-  const t = text.toLowerCase();
-
-  // New special responses
-  if (t.includes("version")) {
-    return "Current version: MitkoAI 0.1. Experimental. ⚙️";
-  }
-
-  if (t.includes("update")) {
-    return "Model 0 introduced basic logic. Model 0.1 added thinking and emotion. 📜";
-  }
-
-  // Emotion-based random reply
-  if (extraReplies[emotion]) {
-    return extraReplies[emotion][
-      Math.floor(Math.random() * extraReplies[emotion].length)
-    ];
-  }
-
-  // Fallback to old logic
-  return oldGenerateReply(text);
-};
-
-// --- PATCH sendMessage TO USE THINKING ---
-const oldSendMessage = sendMessage;
-sendMessage = function() {
-  const input = document.getElementById("userInput");
-  if (!input || !input.value.trim()) return;
-
-  const text = input.value.trim();
-  addUserBubble(text);
-  input.value = "";
-
-  think(text, (reply) => {
-    addAIBubble(reply);
-  });
-};
 </script>
 
 </body>
