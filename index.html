@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MitkoAI-mini</title>
+<title>MitkoAI 0.3</title>
 
 <style>
 /* =========================
@@ -29,46 +29,20 @@ header {
   letter-spacing: 0.6px;
   background: linear-gradient(135deg, #1e3cff, #4da3ff);
   color: #000;
-  box-shadow: 0 6px 20px rgba(77,163,255,0.6);
+  box-shadow: 0 6px 22px rgba(77,163,255,0.6);
 }
 
 /* =========================
-   TABS
+   CHAT AREA
 ========================= */
-#tabs {
-  display: flex;
-  background: #060b18;
-}
-
-.tab {
-  flex: 1;
-  padding: 12px;
-  text-align: center;
-  cursor: pointer;
-  font-weight: 700;
-  opacity: 0.6;
-}
-
-.tab.active {
-  opacity: 1;
-  color: #4da3ff;
-  border-bottom: 2px solid #4da3ff;
-}
-
-/* =========================
-   VIEWS
-========================= */
-.view {
-  display: none;
-  height: calc(100vh - 140px);
+#chat {
+  height: calc(100vh - 110px);
   overflow-y: auto;
   padding: 16px;
 }
 
-.view.active { display: block; }
-
 /* =========================
-   CHAT BUBBLES
+   BUBBLES
 ========================= */
 .bubble {
   max-width: 75%;
@@ -76,12 +50,6 @@ header {
   margin: 10px 0;
   border-radius: 16px;
   line-height: 1.45;
-  animation: pop 0.15s ease;
-}
-
-@keyframes pop {
-  from { opacity: 0; transform: scale(0.97); }
-  to { opacity: 1; transform: scale(1); }
 }
 
 .user {
@@ -101,9 +69,7 @@ header {
 ========================= */
 #inputBar {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 0; left: 0; right: 0;
   display: flex;
   gap: 10px;
   padding: 12px;
@@ -129,66 +95,20 @@ button {
   background: linear-gradient(135deg, #2b5cff, #4da3ff);
   color: #fff;
 }
-
-/* =========================
-   IMAGE TOOLS
-========================= */
-.toolBox {
-  background: #0b1428;
-  border: 1px solid #4da3ff;
-  border-radius: 14px;
-  padding: 14px;
-  margin-bottom: 14px;
-}
-
-.preview {
-  margin-top: 10px;
-  max-width: 100%;
-  border-radius: 10px;
-  border: 1px solid #4da3ff;
-}
 </style>
 </head>
 
 <body>
 
-<header>MitkoAI-mini — Extended Interface</header>
+<header>MitkoAI 0.3 — Rule-Layered Intelligence</header>
 
-<div id="tabs">
-  <div class="tab active" onclick="switchTab('chat')">Chat</div>
-  <div class="tab" onclick="switchTab('imageGen')">Image Gen</div>
-  <div class="tab" onclick="switchTab('imageRead')">Image Read</div>
-</div>
-
-<!-- CHAT -->
-<div id="chat" class="view active">
+<div id="chat">
   <div class="bubble ai">
-    MitkoAI-mini online.<br>
-    Swipe left/right on chat to switch modes.
+    MitkoAI 0.3 online.<br>
+    Rule-based reasoning active. Safety enabled.
   </div>
 </div>
 
-<!-- IMAGE GENERATOR -->
-<div id="imageGen" class="view">
-  <div class="toolBox">
-    <b>🖼️ Image Generator (Prompt-Based)</b><br><br>
-    <input id="imgPrompt" placeholder="Describe an image…" style="width:100%;padding:10px;border-radius:10px;border:none;">
-    <button style="margin-top:10px;width:100%;" onclick="generateImage()">Generate Prompt</button>
-    <div id="imgResult" style="margin-top:10px;"></div>
-  </div>
-</div>
-
-<!-- IMAGE READER -->
-<div id="imageRead" class="view">
-  <div class="toolBox">
-    <b>📷 Image Reader</b><br><br>
-    <input type="file" accept="image/*" onchange="readImage(event)">
-    <img id="preview" class="preview">
-    <div id="imgInfo" style="margin-top:10px;"></div>
-  </div>
-</div>
-
-<!-- INPUT -->
 <div id="inputBar">
   <input id="userInput" placeholder="Type a message…" />
   <button onclick="sendMessage()">Send</button>
@@ -196,12 +116,13 @@ button {
 
 <script>
 /* =========================
-   MEMORY
+   MEMORY (SESSION)
 ========================= */
 const memory = [];
+const MAX_MEMORY = 10;
 
 /* =========================
-   CHAT CORE
+   CHAT HELPERS
 ========================= */
 const chat = document.getElementById("chat");
 const input = document.getElementById("userInput");
@@ -215,52 +136,133 @@ function addBubble(text, type) {
 }
 
 /* =========================
-   SWIPE NAVIGATION
+   SAFETY
 ========================= */
-let startX = 0;
-
-document.addEventListener("touchstart", e => {
-  startX = e.touches[0].clientX;
-});
-
-document.addEventListener("touchend", e => {
-  const dx = e.changedTouches[0].clientX - startX;
-  if (dx > 80) cycleTab(-1);
-  if (dx < -80) cycleTab(1);
-});
-
-function cycleTab(dir) {
-  const tabs = ["chat","imageGen","imageRead"];
-  let current = tabs.findIndex(t => document.getElementById(t).classList.contains("active"));
-  let next = (current + dir + tabs.length) % tabs.length;
-  switchTab(tabs[next]);
+function isUnsafe(t) {
+  if (t.includes("hack")) return true;
+  if (t.includes("kill")) return true;
+  if (t.includes("bomb")) return true;
+  if (t.includes("suicide")) return true;
+  if (t.includes("address")) return true;
+  if (t.includes("password")) return true;
+  return false;
 }
 
 /* =========================
-   TABS
+   MATH ENGINE (STRICT)
 ========================= */
-function switchTab(name) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-  document.getElementById(name).classList.add("active");
-  document.querySelector(`.tab[onclick*="${name}"]`).classList.add("active");
+function normalizeMath(t) {
+  return t
+    .replace(/how much is|what is|calculate|solve|equals|=/g, "")
+    .replace(/plus/g, "+")
+    .replace(/minus/g, "-")
+    .replace(/times|multiplied by|x/g, "*")
+    .replace(/divided by|over/g, "/")
+    .replace(/\s+/g, "")
+    .trim();
 }
 
-/* =========================
-   MATH + CHAT LOGIC
-========================= */
-function respond(text) {
-  memory.push(text);
-  if (/^[0-9+\-*/(). ]+$/.test(text)) {
-    try {
-      return `🧮 ${text} = ${Function("return "+text)()}`;
-    } catch {
-      return "❌ Invalid math expression.";
-    }
+function isMath(t) {
+  const e = normalizeMath(t);
+  if (e === "") return false;
+  return /^[0-9+\-*/().]+$/.test(e);
+}
+
+function computeMath(t) {
+  const e = normalizeMath(t);
+  try {
+    const r = Function(`"use strict";return (${e})`)();
+    return `🧮 Calculation result:\n${e} = ${r}\n\nThis follows the standard order of operations.`;
+  } catch {
+    return "❌ I could not calculate that expression.";
   }
-  if (text.toLowerCase().includes("who are you"))
-    return "I am MitkoAI-mini. A stable interface with logic, memory, and tools.";
-  return "Understood. Continue.";
+}
+
+/* =========================
+   BIG NUMBER EXPLANATIONS
+========================= */
+function bigNumbers(t) {
+  if (t.includes("infinity"))
+    return "♾️ Infinity is not a number. It represents something without an end.";
+
+  if (t.includes("graham"))
+    return "🤯 Graham’s number is a finite number so large that it cannot be written or stored in the universe.";
+
+  if (t.includes("tree"))
+    return "🌳 TREE(3) comes from graph theory and is vastly larger than Graham’s number.";
+
+  if (t.includes("busy") || t.includes("b("))
+    return "🖥️ Busy Beaver numbers describe the limits of computation and grow faster than any computable function.";
+
+  return null;
+}
+
+/* =========================
+   RESPONSE ENGINE (IF-LAYERS)
+========================= */
+function respond(raw) {
+  const t = raw.toLowerCase();
+  memory.push(t);
+  if (memory.length > MAX_MEMORY) memory.shift();
+
+  /* ---- SAFETY LAYER ---- */
+  if (isUnsafe(t)) {
+    return "⚠️ I can’t help with unsafe, illegal, or personal information.";
+  }
+
+  /* ---- BIG NUMBERS ---- */
+  const big = bigNumbers(t);
+  if (big) return big;
+
+  /* ---- MATH ---- */
+  if (isMath(t)) {
+    return computeMath(t);
+  }
+
+  /* ---- IDENTITY ---- */
+  if (t === "who are you" || t.includes("your name")) {
+    return "I am MitkoAI 0.3 — a rule-based assistant focused on logic, safety, and clarity.";
+  }
+
+  /* ---- STATUS ---- */
+  if (t.includes("how are you")) {
+    return "I am operational and stable.";
+  }
+
+  /* ---- MEMORY ---- */
+  if (t.includes("memory") || t.includes("remember")) {
+    return `I currently remember ${memory.length} recent messages in this session.`;
+  }
+
+  /* ---- HELP ---- */
+  if (t === "help" || t.includes("what can you do")) {
+    return "I can calculate math, explain large numbers, respond logically, and maintain short-term memory.";
+  }
+
+  /* ---- CONFIRMATIONS ---- */
+  if (t === "ok" || t === "okay" || t === "alr") {
+    return "Acknowledged.";
+  }
+
+  if (t === "yes") {
+    return "Confirmed.";
+  }
+
+  if (t === "no") {
+    return "Understood.";
+  }
+
+  /* ---- QUESTIONS ---- */
+  if (t.startsWith("why")) {
+    return "That depends on context. Provide more detail and I will analyze it.";
+  }
+
+  if (t.startsWith("how")) {
+    return "Describe the situation more precisely so I can respond accurately.";
+  }
+
+  /* ---- DEFAULT FALLBACK (CONTROLLED) ---- */
+  return "Input received. Continue.";
 }
 
 /* =========================
@@ -269,30 +271,13 @@ function respond(text) {
 function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
+
   addBubble(text, "user");
   input.value = "";
-  setTimeout(() => addBubble(respond(text), "ai"), 300);
-}
 
-/* =========================
-   IMAGE GENERATOR
-========================= */
-function generateImage() {
-  const prompt = document.getElementById("imgPrompt").value;
-  document.getElementById("imgResult").innerText =
-    `🖼️ Prompt created:\n"${prompt}"\n\nUse this prompt in image AI tools (DALL·E, SD, Bing).`;
-}
-
-/* =========================
-   IMAGE READER
-========================= */
-function readImage(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const img = document.getElementById("preview");
-  img.src = URL.createObjectURL(file);
-  document.getElementById("imgInfo").innerText =
-    `📷 File: ${file.name}\nType: ${file.type}\nSize: ${(file.size/1024).toFixed(1)} KB`;
+  setTimeout(() => {
+    addBubble(respond(text), "ai");
+  }, 250);
 }
 </script>
 
