@@ -179,6 +179,116 @@ function reply(text){
 
   return "Input processed. Limited-response logic applied.";
 }
+/* =========================
+   MITKOAI 0.1 ADD-ON
+   (Thinking + Feelings)
+========================= */
+
+// --- EMOTION DETECTION ---
+function detectEmotion(text) {
+  text = text.toLowerCase();
+
+  if (text.includes("hate") || text.includes("stupid") || text.includes("shut up"))
+    return "angry";
+
+  if (text.includes("scared") || text.includes("afraid") || text.includes("what if"))
+    return "scared";
+
+  if (text.includes("why") || text.includes("how"))
+    return "thinking";
+
+  return "neutral";
+}
+
+// --- THINKING ENGINE (REAL, NOT WAITING) ---
+function think(input, callback) {
+  const status = document.getElementById("status");
+  if (!status) return callback(generateReply(input));
+
+  const steps = [
+    "Thinking…",
+    "Analyzing meaning…",
+    "Choosing response…"
+  ];
+
+  let i = 0;
+  const loop = setInterval(() => {
+    status.textContent = steps[i];
+    i++;
+
+    if (i >= steps.length) {
+      clearInterval(loop);
+      status.textContent = "Responding.";
+      callback(generateReply(input));
+    }
+  }, 300);
+}
+
+// --- RESPONSE EXPANSION ---
+const extraReplies = {
+  neutral: [
+    "I hear you. 👁️",
+    "Go on. 🔍",
+    "I’m paying attention. 🧠",
+    "That’s noted. 💭"
+  ],
+  thinking: [
+    "That’s complicated. Let me think. 🤔",
+    "I’m not fully sure yet. 💭",
+    "I need more context. 🧠"
+  ],
+  scared: [
+    "I’m not certain... but I’ll try... 😨",
+    "This makes me unsure... give me time... 😰",
+    "I don’t feel confident answering that... 😟"
+  ],
+  angry: [
+    "PLEASE LOWER YOUR TONE. 😠",
+    "I UNDERSTAND, BUT THIS IS NOT PRODUCTIVE. 😡",
+    "CALM DOWN. I’M STILL HERE. 😠"
+  ]
+};
+
+// --- PATCH generateReply WITHOUT REPLACING ---
+const oldGenerateReply = generateReply;
+generateReply = function(text) {
+  const emotion = detectEmotion(text);
+  const t = text.toLowerCase();
+
+  // New special responses
+  if (t.includes("version")) {
+    return "Current version: MitkoAI 0.1. Experimental. ⚙️";
+  }
+
+  if (t.includes("update")) {
+    return "Model 0 introduced basic logic. Model 0.1 added thinking and emotion. 📜";
+  }
+
+  // Emotion-based random reply
+  if (extraReplies[emotion]) {
+    return extraReplies[emotion][
+      Math.floor(Math.random() * extraReplies[emotion].length)
+    ];
+  }
+
+  // Fallback to old logic
+  return oldGenerateReply(text);
+};
+
+// --- PATCH sendMessage TO USE THINKING ---
+const oldSendMessage = sendMessage;
+sendMessage = function() {
+  const input = document.getElementById("userInput");
+  if (!input || !input.value.trim()) return;
+
+  const text = input.value.trim();
+  addUserBubble(text);
+  input.value = "";
+
+  think(text, (reply) => {
+    addAIBubble(reply);
+  });
+};
 </script>
 
 </body>
