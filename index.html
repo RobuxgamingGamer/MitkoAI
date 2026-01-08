@@ -3,357 +3,228 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MitkoAI — Model 0.2</title>
+<title>MitkoAI-mini</title>
 
 <style>
-/* =========================
-   GLOBAL
-========================= */
-* { box-sizing: border-box; }
-
+/* ================= BASE ================= */
 body {
   margin: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: radial-gradient(circle at top, #eaf3ff, #cfe4ff, #b8d7ff);
-  color: #0a1a33;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+  background: radial-gradient(circle at top, #0a1022, #02040a);
+  color: #eaf2ff;
+  overflow: hidden;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* ================= HEADER ================= */
 header {
   padding: 14px;
   text-align: center;
-  font-weight: 900;
-  font-size: 1.3em;
-  background: linear-gradient(135deg, #4da3ff, #a7cfff);
-  color: #001;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-}
-
-/* =========================
-   WARNING
-========================= */
-.warning {
-  background: #ff5252;
-  color: white;
-  text-align: center;
-  font-size: 0.9em;
-  padding: 8px;
+  background: linear-gradient(135deg, #1e3cff, #4da3ff);
   font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
-/* =========================
-   TABS
-========================= */
-.tabs {
+/* ================= TABS ================= */
+#tabs {
   display: flex;
-  background: #e1efff;
+  background: #060b18;
 }
 
 .tab {
   flex: 1;
+  padding: 12px;
   text-align: center;
-  padding: 10px;
-  font-weight: 800;
   cursor: pointer;
-  opacity: 0.6;
+  border-bottom: 2px solid transparent;
 }
 
 .tab.active {
-  opacity: 1;
-  border-bottom: 3px solid #4da3ff;
+  border-bottom: 2px solid #4da3ff;
+  color: #4da3ff;
 }
 
-/* =========================
-   PANELS
-========================= */
-.panel {
-  flex: 1;
+/* ================= VIEWS ================= */
+.view {
   display: none;
-  flex-direction: column;
-}
-
-.panel.active {
-  display: flex;
-}
-
-/* =========================
-   CHAT
-========================= */
-.chat {
-  flex: 1;
-  padding: 14px;
+  height: calc(100vh - 140px);
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  padding: 16px;
 }
 
-.msg {
-  max-width: 80%;
-  padding: 10px 14px;
-  border-radius: 14px;
-  line-height: 1.4;
-  animation: fade 0.2s ease;
+.view.active {
+  display: block;
+}
+
+/* ================= CHAT ================= */
+.bubble {
+  max-width: 75%;
+  padding: 14px 18px;
+  margin: 10px 0;
+  border-radius: 16px;
+  line-height: 1.45;
+  animation: pop 0.15s ease;
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .user {
-  align-self: flex-end;
-  background: #d6e7ff;
+  margin-left: auto;
+  background: linear-gradient(135deg, #2b5cff, #4da3ff);
+  box-shadow: 0 0 12px rgba(77,163,255,0.6);
 }
 
 .ai {
-  align-self: flex-start;
-  background: white;
+  background: linear-gradient(135deg, #0b1a33, #102b55);
   border: 1px solid #4da3ff;
-  box-shadow: 0 0 10px rgba(77,163,255,0.4);
+  box-shadow: 0 0 14px rgba(77,163,255,0.35);
 }
 
-@keyframes fade {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* =========================
-   STATUS
-========================= */
-.status {
-  font-size: 0.85em;
-  padding: 6px 12px;
-  opacity: 0.7;
-  font-style: italic;
-}
-
-/* =========================
-   INPUT
-========================= */
-.input-bar {
+/* ================= INPUT ================= */
+#inputBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   gap: 10px;
-  padding: 10px;
-  background: #eaf3ff;
-  border-top: 1px solid #b8d7ff;
+  padding: 12px;
+  background: rgba(5,10,25,0.95);
+  border-top: 1px solid #2b5cff;
 }
 
-input {
+#userInput {
   flex: 1;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #a7cfff;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
   outline: none;
+  background: #0b1428;
+  color: #eaf2ff;
 }
 
 button {
-  padding: 10px 16px;
-  border-radius: 10px;
+  padding: 14px 18px;
+  border-radius: 14px;
   border: none;
-  font-weight: 900;
-  background: linear-gradient(135deg, #4da3ff, #a7cfff);
-  cursor: pointer;
+  background: linear-gradient(135deg, #2b5cff, #4da3ff);
+  color: white;
+  font-weight: 600;
 }
 
-/* =========================
-   UPDATES
-========================= */
-.updates {
-  padding: 16px;
-  font-size: 0.95em;
-}
-
-.updates h3 {
-  margin-top: 0;
+/* ================= UPDATES ================= */
+.update {
+  margin-bottom: 16px;
+  padding: 14px;
+  border-radius: 14px;
+  background: #0b1428;
+  border: 1px solid #4da3ff;
 }
 </style>
 </head>
 
 <body>
 
-<header>MitkoAI — Model 0.2</header>
+<header>MitkoAI-mini — Intelligence-First</header>
 
-<div class="warning">
-⚠️ Experimental intelligence prototype. No safety systems. Testing only.
+<div id="tabs">
+  <div class="tab active" onclick="switchTab('chat')">Chat</div>
+  <div class="tab" onclick="switchTab('updates')">Updates</div>
 </div>
 
-<div class="tabs">
-  <div class="tab active" onclick="showTab('chat')">Chat</div>
-  <div class="tab" onclick="showTab('updates')">Updates</div>
-</div>
-
-<!-- CHAT PANEL -->
-<div id="chatPanel" class="panel active">
-  <div class="chat" id="chat">
-    <div class="msg ai">
-      MitkoAI 0.2 initialized. Intelligence-first mode active. 🧠
-    </div>
-  </div>
-
-  <div class="status" id="status">Idle.</div>
-
-  <div class="input-bar">
-    <input id="input" placeholder="Type for testing…">
-    <button onclick="send()">Send</button>
+<!-- ================= CHAT VIEW ================= -->
+<div id="chat" class="view active">
+  <div class="bubble ai">
+    MitkoAI-mini online.<br>
+    Intelligence-first mode active.
   </div>
 </div>
 
-<!-- UPDATES PANEL -->
-<div id="updatesPanel" class="panel">
-  <div class="updates">
-    <h3>Update Log</h3>
-    <ul>
-      <li><b>Model 0</b> — Basic prototype, static replies.</li>
-      <li><b>Model 0.1</b> — Thinking steps, early emotion detection.</li>
-      <li><b>Model 0.2</b> — Intelligence-first logic, non-repeating replies, scalable architecture.</li>
-    </ul>
+<!-- ================= UPDATES VIEW ================= -->
+<div id="updates" class="view">
+  <div class="update">
+    <b>MitkoAI-mini</b><br>
+    Stable lightweight logic core.
   </div>
+
+  <div class="update">
+    <b>Design</b><br>
+    Dark neon UI, readability first.
+  </div>
+
+  <div class="update">
+    <b>Logic</b><br>
+    Deterministic responses + math support.
+  </div>
+</div>
+
+<!-- ================= INPUT ================= -->
+<div id="inputBar">
+  <input id="userInput" placeholder="Type a message…" />
+  <button onclick="sendMessage()">Send</button>
 </div>
 
 <script>
-/* =========================
-   CORE STATE
-========================= */
-const MitkoAI = {
-  version: "0.2",
-  lastReplies: {}
-};
-
-/* =========================
-   RESPONSE DATABASE
-   (THIS IS WHERE YOU SCALE
-   TO 1000+ LINES LATER)
-========================= */
-const RESPONSES = {
-  greeting: [
-    "Hello. I am online.",
-    "Greetings. Input channel open.",
-    "Hello. Ready to process."
-  ],
-  identity: [
-    "I am MitkoAI, version 0.2.",
-    "MitkoAI 0.2. Intelligence-first prototype.",
-    "I am a reasoning system, not a human."
-  ],
-  emotion_question: [
-    "I do not experience emotions.",
-    "I analyze emotional language without feeling it.",
-    "Emotions are detected, not felt."
-  ],
-  anger_detected: [
-    "High-intensity language detected.",
-    "Frustration patterns identified.",
-    "Input suggests elevated emotional state."
-  ],
-  future: [
-    "Future models will expand reasoning depth.",
-    "Memory systems are planned for later versions.",
-    "Human-like simulation is not active yet."
-  ],
-  unknown: [
-    "Input understood, intent unclear.",
-    "Please clarify your request.",
-    "I need more context."
-  ]
-};
-
-/* =========================
-   SMART PICK (NO REPEAT)
-========================= */
-function pick(type) {
-  const pool = RESPONSES[type] || RESPONSES.unknown;
-  const last = MitkoAI.lastReplies[type];
-  let choice;
-
-  do {
-    choice = pool[Math.floor(Math.random() * pool.length)];
-  } while (choice === last && pool.length > 1);
-
-  MitkoAI.lastReplies[type] = choice;
-  return choice;
-}
-
-/* =========================
-   TAB LOGIC
-========================= */
-function showTab(tab) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
-
-  if (tab === "chat") {
-    document.querySelectorAll(".tab")[0].classList.add("active");
-    chatPanel.classList.add("active");
-  } else {
-    document.querySelectorAll(".tab")[1].classList.add("active");
-    updatesPanel.classList.add("active");
-  }
-}
-
-/* =========================
-   CHAT FUNCTIONS
-========================= */
 const chat = document.getElementById("chat");
-const input = document.getElementById("input");
-const status = document.getElementById("status");
+const input = document.getElementById("userInput");
 
-function add(text, type) {
-  const d = document.createElement("div");
-  d.className = "msg " + type;
-  d.textContent = text;
-  chat.appendChild(d);
+/* ================= TABS ================= */
+function switchTab(name) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.querySelector(`.tab[onclick*="${name}"]`).classList.add("active");
+  document.getElementById(name).classList.add("active");
+}
+
+/* ================= CHAT ================= */
+function addBubble(text, type) {
+  const div = document.createElement("div");
+  div.className = "bubble " + type;
+  div.textContent = text;
+  chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
 }
 
-function send() {
-  const text = input.value.trim();
-  if (!text) return;
-
-  add(text, "user");
-  input.value = "";
-  think(text);
-}
-
-/* =========================
-   THINKING ENGINE
-========================= */
-function think(text) {
-  const steps = ["Analyzing…", "Evaluating intent…", "Selecting response…"];
-  let i = 0;
-
-  const loop = setInterval(() => {
-    status.textContent = steps[i];
-    i++;
-    if (i >= steps.length) {
-      clearInterval(loop);
-      status.textContent = "Responded.";
-      add(reply(text), "ai");
-    }
-  }, 300);
-}
-
-/* =========================
-   REPLY LOGIC (SMART-FIRST)
-========================= */
-function reply(text) {
+/* ================= LOGIC ================= */
+function respond(text) {
   const t = text.toLowerCase();
 
-  if (t === "hi" || t === "hello")
-    return pick("greeting");
+  // Math
+  if (/^[0-9\+\-\*\/\.\(\)\s]+$/.test(t)) {
+    try { return "Result: " + eval(t); }
+    catch { return "Math error."; }
+  }
 
   if (t.includes("who are you"))
-    return pick("identity");
+    return "I am MitkoAI-mini. A compact reasoning system.";
 
-  if (t.includes("feel") || t.includes("emotion") || t.includes("angry"))
-    return pick("emotion_question");
+  if (t.includes("how are you"))
+    return "Operational and stable.";
 
-  if (t.includes("hate") || t.includes("mad"))
-    return pick("anger_detected");
+  if (t.includes("feel"))
+    return "I do not experience feelings. I analyze language.";
 
   if (t.includes("future"))
-    return pick("future");
+    return "Future builds increase depth, not noise.";
 
-  return pick("unknown");
+  if (t.includes("angry"))
+    return "Emotion detected. Slowing reasoning pace.";
+
+  return "Understood. Continue.";
+}
+
+/* ================= SEND ================= */
+function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+  addBubble(text, "user");
+  input.value = "";
+
+  setTimeout(() => {
+    addBubble(respond(text), "ai");
+  }, 300);
 }
 </script>
 
