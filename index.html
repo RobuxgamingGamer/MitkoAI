@@ -3,170 +3,179 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MitkoAI — Model 0.1</title>
+<title>MitkoAI — Model 0.2</title>
 
 <style>
-:root{
-  --blue:#4da3ff;
-  --bg:#070b14;
-  --panel:#0f1726;
-  --soft:#a7cfff;
+/* =========================
+   GLOBAL
+========================= */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(circle at top, #eaf3ff, #cfe4ff, #b8d7ff);
+  color: #0a1a33;
 }
 
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
-  background:radial-gradient(circle at top,#162033,#05070c);
-  color:white;
+/* =========================
+   HEADER
+========================= */
+header {
+  padding: 14px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 1.3em;
+  background: linear-gradient(135deg, #4da3ff, #a7cfff);
+  color: #001;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
-/* HEADER */
-header{
-  padding:14px;
-  text-align:center;
-  font-weight:900;
-  letter-spacing:1px;
-  background:linear-gradient(135deg,var(--blue),var(--soft));
-  color:#000;
+/* =========================
+   WARNING
+========================= */
+.warning {
+  background: #ff5252;
+  color: white;
+  text-align: center;
+  font-size: 0.9em;
+  padding: 8px;
+  font-weight: 700;
 }
 
-/* WARNING */
-.warning{
-  padding:10px;
-  text-align:center;
-  font-size:.9em;
-  background:#c62828;
-  font-weight:700;
+/* =========================
+   TABS
+========================= */
+.tabs {
+  display: flex;
+  background: #e1efff;
 }
 
-/* TABS */
-.tabs{
-  display:flex;
-  background:#0b1220;
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  font-weight: 800;
+  cursor: pointer;
+  opacity: 0.6;
 }
 
-.tab{
-  flex:1;
-  padding:10px;
-  text-align:center;
-  cursor:pointer;
-  font-weight:700;
-  opacity:.6;
+.tab.active {
+  opacity: 1;
+  border-bottom: 3px solid #4da3ff;
 }
 
-.tab.active{
-  opacity:1;
-  border-bottom:3px solid var(--blue);
+/* =========================
+   PANELS
+========================= */
+.panel {
+  flex: 1;
+  display: none;
+  flex-direction: column;
 }
 
-/* PANELS */
-.panel{
-  flex:1;
-  display:none;
-  flex-direction:column;
+.panel.active {
+  display: flex;
 }
 
-.panel.active{
-  display:flex;
+/* =========================
+   CHAT
+========================= */
+.chat {
+  flex: 1;
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* CHAT */
-.chat{
-  flex:1;
-  padding:16px;
-  overflow-y:auto;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
+.msg {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  line-height: 1.4;
+  animation: fade 0.2s ease;
 }
 
-.msg{
-  max-width:80%;
-  padding:12px 14px;
-  border-radius:16px;
-  line-height:1.4;
-  animation:fade .2s ease;
+.user {
+  align-self: flex-end;
+  background: #d6e7ff;
 }
 
-.user{
-  align-self:flex-end;
-  background:#26344f;
+.ai {
+  align-self: flex-start;
+  background: white;
+  border: 1px solid #4da3ff;
+  box-shadow: 0 0 10px rgba(77,163,255,0.4);
 }
 
-.ai{
-  align-self:flex-start;
-  background:linear-gradient(135deg,#101b2d,#162742);
-  border:1px solid var(--blue);
-  box-shadow:0 0 12px rgba(77,163,255,.45);
+@keyframes fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* STATUS */
-.status{
-  font-size:.85em;
-  opacity:.7;
-  padding:6px 14px;
-  font-style:italic;
+/* =========================
+   STATUS
+========================= */
+.status {
+  font-size: 0.85em;
+  padding: 6px 12px;
+  opacity: 0.7;
+  font-style: italic;
 }
 
-/* INPUT */
-.input-bar{
-  display:flex;
-  gap:10px;
-  padding:12px;
-  background:var(--panel);
-  border-top:1px solid #2a3a55;
+/* =========================
+   INPUT
+========================= */
+.input-bar {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background: #eaf3ff;
+  border-top: 1px solid #b8d7ff;
 }
 
-input{
-  flex:1;
-  padding:12px;
-  border-radius:12px;
-  border:none;
-  outline:none;
-  background:#0b1422;
-  color:white;
+input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #a7cfff;
+  outline: none;
 }
 
-button{
-  padding:12px 18px;
-  border:none;
-  border-radius:12px;
-  font-weight:900;
-  background:linear-gradient(135deg,var(--blue),var(--soft));
-  cursor:pointer;
-  color:#000;
+button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 900;
+  background: linear-gradient(135deg, #4da3ff, #a7cfff);
+  cursor: pointer;
 }
 
-button:active{transform:scale(.95)}
-
-@keyframes fade{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:translateY(0)}
+/* =========================
+   UPDATES
+========================= */
+.updates {
+  padding: 16px;
+  font-size: 0.95em;
 }
 
-/* UPDATES */
-.updates{
-  padding:18px;
-  font-size:.95em;
-}
-
-.updates h3{
-  margin-top:0;
+.updates h3 {
+  margin-top: 0;
 }
 </style>
 </head>
 
 <body>
 
-<header>MitkoAI — Model 0.1</header>
+<header>MitkoAI — Model 0.2</header>
 
 <div class="warning">
-⚠️ EXPERIMENTAL AI — NO SAFETY / NO FILTERS. DO NOT SHARE PERSONAL DATA.
+⚠️ Experimental intelligence prototype. No safety systems. Testing only.
 </div>
 
 <div class="tabs">
@@ -178,14 +187,14 @@ button:active{transform:scale(.95)}
 <div id="chatPanel" class="panel active">
   <div class="chat" id="chat">
     <div class="msg ai">
-      MitkoAI 0.1 online. I’m still learning, but I can think. 🤖
+      MitkoAI 0.2 initialized. Intelligence-first mode active. 🧠
     </div>
   </div>
 
   <div class="status" id="status">Idle.</div>
 
   <div class="input-bar">
-    <input id="input" placeholder="Type (testing only)…">
+    <input id="input" placeholder="Type for testing…">
     <button onclick="send()">Send</button>
   </div>
 </div>
@@ -195,23 +204,84 @@ button:active{transform:scale(.95)}
   <div class="updates">
     <h3>Update Log</h3>
     <ul>
-      <li><b>Model 0</b> — Initial prototype. Basic replies.</li>
-      <li><b>Model 0.1</b> — Thinking states, emotions, improved human tone, UI tabs.</li>
+      <li><b>Model 0</b> — Basic prototype, static replies.</li>
+      <li><b>Model 0.1</b> — Thinking steps, early emotion detection.</li>
+      <li><b>Model 0.2</b> — Intelligence-first logic, non-repeating replies, scalable architecture.</li>
     </ul>
   </div>
 </div>
 
 <script>
-const chat = document.getElementById("chat");
-const input = document.getElementById("input");
-const status = document.getElementById("status");
+/* =========================
+   CORE STATE
+========================= */
+const MitkoAI = {
+  version: "0.2",
+  lastReplies: {}
+};
 
-/* TAB LOGIC */
-function showTab(tab){
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+/* =========================
+   RESPONSE DATABASE
+   (THIS IS WHERE YOU SCALE
+   TO 1000+ LINES LATER)
+========================= */
+const RESPONSES = {
+  greeting: [
+    "Hello. I am online.",
+    "Greetings. Input channel open.",
+    "Hello. Ready to process."
+  ],
+  identity: [
+    "I am MitkoAI, version 0.2.",
+    "MitkoAI 0.2. Intelligence-first prototype.",
+    "I am a reasoning system, not a human."
+  ],
+  emotion_question: [
+    "I do not experience emotions.",
+    "I analyze emotional language without feeling it.",
+    "Emotions are detected, not felt."
+  ],
+  anger_detected: [
+    "High-intensity language detected.",
+    "Frustration patterns identified.",
+    "Input suggests elevated emotional state."
+  ],
+  future: [
+    "Future models will expand reasoning depth.",
+    "Memory systems are planned for later versions.",
+    "Human-like simulation is not active yet."
+  ],
+  unknown: [
+    "Input understood, intent unclear.",
+    "Please clarify your request.",
+    "I need more context."
+  ]
+};
 
-  if(tab==="chat"){
+/* =========================
+   SMART PICK (NO REPEAT)
+========================= */
+function pick(type) {
+  const pool = RESPONSES[type] || RESPONSES.unknown;
+  const last = MitkoAI.lastReplies[type];
+  let choice;
+
+  do {
+    choice = pool[Math.floor(Math.random() * pool.length)];
+  } while (choice === last && pool.length > 1);
+
+  MitkoAI.lastReplies[type] = choice;
+  return choice;
+}
+
+/* =========================
+   TAB LOGIC
+========================= */
+function showTab(tab) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+
+  if (tab === "chat") {
     document.querySelectorAll(".tab")[0].classList.add("active");
     chatPanel.classList.add("active");
   } else {
@@ -220,70 +290,70 @@ function showTab(tab){
   }
 }
 
-/* CHAT */
-function add(text,type){
-  const d=document.createElement("div");
-  d.className="msg "+type;
-  d.textContent=text;
+/* =========================
+   CHAT FUNCTIONS
+========================= */
+const chat = document.getElementById("chat");
+const input = document.getElementById("input");
+const status = document.getElementById("status");
+
+function add(text, type) {
+  const d = document.createElement("div");
+  d.className = "msg " + type;
+  d.textContent = text;
   chat.appendChild(d);
-  chat.scrollTop=chat.scrollHeight;
+  chat.scrollTop = chat.scrollHeight;
 }
 
-function send(){
-  const text=input.value.trim();
-  if(!text) return;
+function send() {
+  const text = input.value.trim();
+  if (!text) return;
 
-  add(text,"user");
-  input.value="";
-
-  think(text,(reply)=>{
-    add(reply,"ai");
-  });
+  add(text, "user");
+  input.value = "";
+  think(text);
 }
 
-/* THINKING */
-function think(text,cb){
-  const steps=["Thinking…","Analyzing…","Choosing words…"];
-  let i=0;
+/* =========================
+   THINKING ENGINE
+========================= */
+function think(text) {
+  const steps = ["Analyzing…", "Evaluating intent…", "Selecting response…"];
+  let i = 0;
 
-  const loop=setInterval(()=>{
-    status.textContent=steps[i];
+  const loop = setInterval(() => {
+    status.textContent = steps[i];
     i++;
-    if(i>=steps.length){
+    if (i >= steps.length) {
       clearInterval(loop);
-      status.textContent="Responded.";
-      cb(reply(text));
+      status.textContent = "Responded.";
+      add(reply(text), "ai");
     }
-  },300);
+  }, 300);
 }
 
-/* EMOTIONS + RESPONSES */
-function reply(text){
-  const t=text.toLowerCase();
+/* =========================
+   REPLY LOGIC (SMART-FIRST)
+========================= */
+function reply(text) {
+  const t = text.toLowerCase();
 
-  if(t.includes("hate")||t.includes("angry"))
-    return "HEY. I FEEL THE ANGER TOO. LET’S SLOW DOWN. 😠";
+  if (t === "hi" || t === "hello")
+    return pick("greeting");
 
-  if(t.includes("scared")||t.includes("afraid"))
-    return "…I sense fear. I’m here. We can talk calmly. 😨";
+  if (t.includes("who are you"))
+    return pick("identity");
 
-  if(t.includes("who are you"))
-    return "I’m MitkoAI, version 0.1. I’m still incomplete, but aware. 🤖";
+  if (t.includes("feel") || t.includes("emotion") || t.includes("angry"))
+    return pick("emotion_question");
 
-  if(t.includes("hello")||t==="hi")
-    return "Hello. I’m listening. 👁️";
+  if (t.includes("hate") || t.includes("mad"))
+    return pick("anger_detected");
 
-  if(t.includes("future"))
-    return "Model 0.2 will focus on memory and deeper reasoning. ⏳";
+  if (t.includes("future"))
+    return pick("future");
 
-  const pool=[
-    "I understand you. Tell me more. 🧠",
-    "That’s interesting. Continue. 🔍",
-    "I’m thinking about that. 💭",
-    "I don’t fully know yet, but I’m learning. ⚠️"
-  ];
-
-  return pool[Math.floor(Math.random()*pool.length)];
+  return pick("unknown");
 }
 </script>
 
