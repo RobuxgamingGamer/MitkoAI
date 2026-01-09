@@ -1,7 +1,10 @@
 const UI = {
-  showTab(tab) {
+  switchTab(tab) {
     document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    document.getElementById(tab).classList.add("active");
+    document.querySelectorAll(".view").forEach(v => v.style.display = "none");
+
+    document.getElementById(tab + "-tab").classList.add("active");
+    document.getElementById(tab + "-view").style.display = "block";
   },
 
   send() {
@@ -12,10 +15,13 @@ const UI = {
     UI.addMessage(text, "user");
     input.value = "";
 
-    setTimeout(() => {
-      const reply = route(text);
-      UI.addMessage(reply, "ai");
-    }, 200);
+    if (typeof route !== "function") {
+      UI.addMessage("Router not available.", "ai");
+      return;
+    }
+
+    const reply = route(text);
+    UI.addMessage(reply, "ai");
   },
 
   addMessage(text, type) {
