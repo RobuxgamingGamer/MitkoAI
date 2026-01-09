@@ -6,13 +6,17 @@
   <title>MitkoAI 0.7</title>
 
   <link rel="stylesheet" href="style.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
-  <!-- TOP -->
+
+  <!-- HEADER -->
   <header class="topbar">
-    <h1>MitkoAI <span>0.7</span></h1>
+    <h1>MitkoAI <span class="version">0.7</span></h1>
   </header>
 
   <!-- TABS -->
@@ -22,21 +26,21 @@
   </div>
 
   <!-- CHAT TAB -->
-  <div id="chatTab" class="tab active">
+  <main id="chatTab" class="tab active">
     <div id="messages"></div>
-
-    <div class="input-bar">
-      <input id="input" placeholder="Ask MitkoAI something..." />
-      <button onclick="UI.send()">Send</button>
-    </div>
-  </div>
+  </main>
 
   <!-- UPDATES TAB -->
-  <div id="updatesTab" class="tab">
+  <main id="updatesTab" class="tab">
     <ul id="updateList"></ul>
+  </main>
+
+  <!-- INPUT -->
+  <div class="input-bar">
+    <input id="input" type="text" placeholder="Ask MitkoAI something..." />
+    <button onclick="UI.send()">Send</button>
   </div>
 
   <script type="module" src="ui.js"></script>
-  <script src="updates.js"></script>
 </body>
 </html>
