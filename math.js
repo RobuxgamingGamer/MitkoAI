@@ -1,19 +1,15 @@
 export function handleMath(text) {
-  const clean = text
-    .toLowerCase()
-    .replace("plus", "+")
-    .replace("minus", "-")
-    .replace("times", "*")
-    .replace("x", "*")
-    .replace("÷", "/");
+  const t = text.replace(/\s+/g, "");
 
-  if (!/[0-9+\-*/().]/.test(clean)) return null;
-
-  try {
-    const result = Function("return " + clean)();
-    if (result === Infinity) return "That result is Infinity ♾️";
-    return `🧮 ${clean} = ${result}`;
-  } catch {
-    return null;
+  // Simple expressions like 1+1, 11/3, 5*6
+  if (/^[0-9+\-*/().]+$/.test(t)) {
+    try {
+      const result = eval(t);
+      return `${text} = ${result}`;
+    } catch {
+      return null;
+    }
   }
+
+  return null;
 }
