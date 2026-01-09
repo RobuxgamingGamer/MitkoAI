@@ -1,47 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>MitkoAI</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>MitkoAI 0.5</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="app">
-  <div class="tabs">
-    <button onclick="showTab('chat')">Chat</button>
-    <button onclick="showTab('updates')">Updates</button>
-  </div>
+<div class="tabs">
+  <button onclick="UI.showTab('chat')">Chat</button>
+  <button onclick="UI.showTab('updates')">Updates</button>
+</div>
 
-  <div id="chat" class="tab active">
-    <div id="messages"></div>
-    <div class="controls">
-      <input id="input" placeholder="Type a message..." />
-      <button onclick="sendMessage()">Send</button>
-    </div>
-  </div>
+<div id="chat" class="tab active">
+  <div id="messages"></div>
 
-  <div id="updates" class="tab">
-    <pre id="updateLog"></pre>
+  <div class="controls">
+    <input id="input" placeholder="Type a message..." />
+    <button onclick="UI.send()">Send</button>
   </div>
 </div>
 
+<div id="updates" class="tab">
+  <h2>Updates</h2>
+  <ul id="updateList"></ul>
+</div>
+
+<script src="memory.js"></script>
+<script src="math.js"></script>
+<script src="algebra.js"></script>
+<script src="language.js"></script>
+<script src="commands.js"></script>
+<script src="fallback.js"></script>
+<script src="router.js"></script>
+<script src="updates.js"></script>
+<script src="ui.js"></script>
 <script src="app.js"></script>
-<script src="core/config.js"></script>
-<script src="core/router.js"></script>
 
-<script src="memory/shortTerm.js"></script>
-<script src="memory/context.js"></script>
-
-<script src="language/intent.js"></script>
-
-<script src="math/calculator.js"></script>
-<script src="math/algebra.js"></script>
-
-<script src="commands/owner.js"></script>
-<script src="responses/fallback.js"></script>
-
-<script src="updates/renderUpdates.js"></script>
-<script src="ui/tabs.js"></script>
 </body>
 </html>
