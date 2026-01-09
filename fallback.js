@@ -1,15 +1,10 @@
-export function fallback(text) {
-  const replies = [
-    "WHAT did you just type?!😭",
-    "I’m calling Mitko!",
-    "Nah. I refuse.",
-    "My brain slipped on a banana 🍌",
-    "This is why I need updates.",
-    "I was happy before reading that.",
-    "That input caused emotional damage.",
-    "Try again but like… better.",
-    "I blinked and missed the logic."
+function fallback(text) {
+  const tips = [
+    "Bro I stared at that sentence and nothing happened 🧠💨",
+    "I’m calling Mitko 📞",
+    "That went straight over my CPU",
+    "Try again but with less chaos 😭"
   ];
 
-  return replies[Math.floor(Math.random() * replies.length)];
+  return tips[Math.floor(Math.random() * tips.length)];
 }
