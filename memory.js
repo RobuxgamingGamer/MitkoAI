@@ -1,6 +1,8 @@
-let lastMessages = [];
+const Memory = {
+  history: [],
 
-function remember(text) {
-  lastMessages.push(text);
-  if (lastMessages.length > 10) lastMessages.shift();
-}
+  store(text) {
+    this.history.push(text);
+    if (this.history.length > 20) this.history.shift();
+  }
+};
