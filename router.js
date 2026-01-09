@@ -1,10 +1,13 @@
-const Router = {
-  route(text) {
-    return (
-      Commands.handle(text) ||
-      MathEngine.handle(text) ||
-      Language.handle(text) ||
-      Fallback.reply()
-    );
-  }
-};
+import { handleMath } from "./math.js";
+import { handleCommands } from "./commands.js";
+import { handleLanguage } from "./language.js";
+import { fallback } from "./fallback.js";
+
+export function route(text) {
+  return (
+    handleCommands(text) ||
+    handleMath(text) ||
+    handleLanguage(text) ||
+    fallback()
+  );
+}
