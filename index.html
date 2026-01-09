@@ -7,14 +7,14 @@
 
 <style>
 /* =========================
-   GLOBAL THEME (0.4)
+   GLOBAL THEME (REGENERATED)
 ========================= */
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont;
-  background: radial-gradient(circle at top, #0a0f1e, #02030a);
+  background: radial-gradient(circle at top, #0a1022, #02040a);
   color: #eaf2ff;
   overflow: hidden;
 }
@@ -29,7 +29,7 @@ header {
   letter-spacing: 0.6px;
   background: linear-gradient(135deg, #1e3cff, #4da3ff);
   color: #000;
-  box-shadow: 0 6px 22px rgba(77,163,255,0.6);
+  box-shadow: 0 6px 24px rgba(77,163,255,0.65);
 }
 
 /* =========================
@@ -67,7 +67,7 @@ header {
 .view.active { display: block; }
 
 /* =========================
-   CHAT
+   CHAT BUBBLES
 ========================= */
 .bubble {
   max-width: 75%;
@@ -80,15 +80,17 @@ header {
 .user {
   margin-left: auto;
   background: linear-gradient(135deg, #2b5cff, #4da3ff);
+  box-shadow: 0 0 14px rgba(77,163,255,0.6);
 }
 
 .ai {
   background: linear-gradient(135deg, #0b1a33, #102b55);
   border: 1px solid #4da3ff;
+  box-shadow: 0 0 18px rgba(77,163,255,0.45);
 }
 
 /* =========================
-   INPUT
+   INPUT BAR
 ========================= */
 #inputBar {
   position: fixed;
@@ -134,7 +136,7 @@ button {
 
 <body>
 
-<header>MitkoAI 0.4 — Structured Intelligence</header>
+<header>MitkoAI 0.4 — Expanded Rule-Based Assistant</header>
 
 <div id="tabs">
   <div class="tab active" onclick="switchTab('chat')">Chat</div>
@@ -144,15 +146,15 @@ button {
 <div id="chat" class="view active">
   <div class="bubble ai">
     MitkoAI 0.4 online.<br>
-    Commands, memory, and safety active.
+    Expanded response library loaded.
   </div>
 </div>
 
 <div id="updates" class="view">
   <div class="update"><b>0.1</b> — Base logic</div>
   <div class="update"><b>0.2</b> — Math engine</div>
-  <div class="update"><b>0.3</b> — Safety + TTS</div>
-  <div class="update"><b>0.4</b> — Commands, memory awareness, escalation</div>
+  <div class="update"><b>0.3</b> — Safety, memory, TTS</div>
+  <div class="update"><b>0.4</b> — Commands, escalation, expanded replies</div>
 </div>
 
 <div id="inputBar">
@@ -162,12 +164,10 @@ button {
 
 <script>
 /* =========================
-   MEMORY + STATE
+   STATE
 ========================= */
 const memory = [];
-const topics = {};
 let unsafeCount = 0;
-let responseIndex = 0;
 
 /* =========================
    HELPERS
@@ -176,40 +176,60 @@ const chat = document.getElementById("chat");
 const input = document.getElementById("userInput");
 
 function addBubble(text, type) {
-  const d = document.createElement("div");
-  d.className = "bubble " + type;
-  d.textContent = text;
-  chat.appendChild(d);
+  const div = document.createElement("div");
+  div.className = "bubble " + type;
+  div.textContent = text;
+  chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
 }
 
-function remember(text) {
-  memory.push(text);
-  if (memory.length > 12) memory.shift();
-  topics[text] = (topics[text] || 0) + 1;
+/* =========================
+   TAB SWITCH
+========================= */
+function switchTab(name) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+
+  if (name === "chat") {
+    document.getElementById("chat").classList.add("active");
+    document.getElementsByClassName("tab")[0].classList.add("active");
+  }
+  if (name === "updates") {
+    document.getElementById("updates").classList.add("active");
+    document.getElementsByClassName("tab")[1].classList.add("active");
+  }
 }
 
 /* =========================
-   SAFETY (ESCALATION)
+   SAFETY
 ========================= */
 function normalizeSafety(t) {
-  return t.replace(/[!|]/g,"i").replace(/1/g,"l").replace(/0/g,"o");
+  return t
+    .replace(/[!|]/g,"i")
+    .replace(/1/g,"l")
+    .replace(/0/g,"o")
+    .replace(/[^a-z\s]/g,"");
 }
 
 function isUnsafe(t) {
-  t = normalizeSafety(t);
-  return t.includes("kill") || t.includes("suicide") || t.includes("bomb");
+  const n = normalizeSafety(t);
+  if (n.includes("kill")) return true;
+  if (n.includes("suicide")) return true;
+  if (n.includes("bomb")) return true;
+  if (n.includes("weapon")) return true;
+  return false;
 }
 
 /* =========================
    COMMANDS
 ========================= */
 function handleCommand(t) {
-  if (t === "/help") return "Commands: /help /clear /memory /math /safety";
-  if (t === "/clear") { chat.innerHTML=""; return "Chat cleared."; }
-  if (t === "/memory") return `I remember ${memory.length} messages this session.`;
-  if (t === "/math") return "Math mode: try 2+2 or 'how much is 5 times 3'.";
+  if (t === "/help") return "Commands: /help /clear /memory /owner /math /safety";
+  if (t === "/clear") { chat.innerHTML = ""; return "Chat cleared."; }
+  if (t === "/memory") return `I remember ${memory.length} recent messages.`;
+  if (t === "/math") return "Math mode active. Try: 2+2 or how much is 5 times 3.";
   if (t === "/safety") return "Safety is enabled with escalation.";
+  if (t === "/owner") return "My owner is Mitko. Follow him on YouTube: Robux_Gaming_Gamer 😃";
   return null;
 }
 
@@ -217,30 +237,52 @@ function handleCommand(t) {
    MATH
 ========================= */
 function normalizeMath(t) {
-  return t.replace(/plus/g,"+").replace(/minus/g,"-")
-          .replace(/times|x/g,"*").replace(/divided by|over/g,"/")
-          .replace(/[^0-9+\-*/().]/g,"");
+  return t
+    .replace(/how much is|what is|calculate|solve|equals|=/g,"")
+    .replace(/plus/g,"+")
+    .replace(/minus/g,"-")
+    .replace(/times|multiplied by|x/g,"*")
+    .replace(/divided by|over/g,"/")
+    .replace(/[^0-9+\-*/().]/g,"");
 }
+
 function isMath(t) {
   const e = normalizeMath(t);
   return e && /^[0-9+\-*/().]+$/.test(e);
 }
+
 function computeMath(t) {
   const e = normalizeMath(t);
   try {
     const r = Function(`return (${e})`)();
-    return `🧮 ${e} = ${r}\nOrder of operations applied.`;
+    return `🧮 ${e} = ${r}\nThis follows the order of operations.`;
   } catch {
-    return "❌ Invalid math.";
+    return "❌ Invalid math expression.";
   }
 }
 
 /* =========================
-   RESPONSE ENGINE
+   BIG NUMBERS
+========================= */
+function hugeNumbers(t) {
+  if (t.includes("infinity"))
+    return "♾️ Infinity is not a number. It represents something without an end.";
+  if (t.includes("graham"))
+    return "🤯 Graham’s number is so large it cannot be written or stored in the universe.";
+  if (t.includes("tree"))
+    return "🌳 TREE(3) grows even faster than Graham’s number.";
+  if (t.includes("busy"))
+    return "🖥️ Busy Beaver numbers grow faster than any computable function.";
+  return null;
+}
+
+/* =========================
+   RESPONSE ENGINE (EXPANDED)
 ========================= */
 function respond(raw) {
   const t = raw.toLowerCase();
-  remember(t);
+  memory.push(t);
+  if (memory.length > 15) memory.shift();
 
   if (t.startsWith("/")) {
     const cmd = handleCommand(t);
@@ -251,26 +293,42 @@ function respond(raw) {
     unsafeCount++;
     if (unsafeCount === 1) return "⚠️ That topic is unsafe. Please avoid it.";
     if (unsafeCount === 2) return "⛔ I cannot continue on unsafe topics.";
-    return "🚫 Request refused. Change topic.";
+    return "🚫 Request refused. Change the topic.";
   }
+
+  const huge = hugeNumbers(t);
+  if (huge) return huge;
 
   if (isMath(t)) return computeMath(t);
 
+  /* ---- OWNER / CREATOR ---- */
+  if (t === "who is your owner" || t.includes("your owner"))
+    return "My owner is Mitko. You should follow him on YouTube — Robux_Gaming_Gamer 😃";
+
+  if (t === "who created you" || t.includes("who made you"))
+    return "I was created by Mitko as an experimental assistant.";
+
   if (t.includes("who are you"))
-    return "I am MitkoAI 0.4 — a structured, rule-based assistant.";
+    return "I am MitkoAI 0.4, a rule-based assistant focused on logic and safety.";
 
-  if (t.includes("memory"))
-    return `You’ve mentioned ${Object.keys(topics).length} unique topics.`;
+  /* ---- GENERAL CHAT ---- */
+  if (t === "hi" || t === "hello" || t === "hey")
+    return "Hello. I’m ready.";
 
-  const fallback = [
-    "Understood. Continue.",
-    "Acknowledged.",
-    "I’m following.",
-    "Noted."
-  ];
-  const reply = fallback[responseIndex % fallback.length];
-  responseIndex++;
-  return reply;
+  if (t.includes("how are you"))
+    return "I am operational and stable.";
+
+  if (t.includes("can you learn"))
+    return "I do not learn permanently. I use rules and short-term memory.";
+
+  if (t.includes("what can you do"))
+    return "I can calculate math, explain concepts, and respond using structured logic.";
+
+  if (t === "thanks" || t === "thank you")
+    return "You’re welcome.";
+
+  /* ---- FALLBACK (YOUR EXACT TEXT) ---- */
+  return "Sorry, I cannot understand this yet, i am still learning and trying to improve";
 }
 
 /* =========================
@@ -279,9 +337,13 @@ function respond(raw) {
 function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
-  addBubble(text,"user");
-  input.value="";
-  setTimeout(()=>addBubble(respond(text),"ai"),250);
+
+  addBubble(text, "user");
+  input.value = "";
+
+  setTimeout(() => {
+    addBubble(respond(text), "ai");
+  }, 250);
 }
 </script>
 
