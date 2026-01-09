@@ -1,31 +1,32 @@
-import { see } from "./vision.js";
-import { handleMath } from "./math.js";
+// router.js
+// MitkoAI 0.6 – Fixing severe glitches 🧠👀
+
+import { handleGreeting } from "./greeting.js";
 import { handleCommands } from "./commands.js";
+import { handleMath } from "./math.js";
 import { handleLanguage } from "./language.js";
 import { fallback } from "./fallback.js";
 
 export function route(text) {
-  const vision = see(text);
+  // Always clean input first
+  const input = text.trim();
 
-  if (vision.isGreeting) {
-    return "Hello there! What are you on about?";
-  }
+  // 1️⃣ Greetings (highest priority)
+  const greeting = handleGreeting(input);
+  if (greeting) return greeting;
 
-  if (vision.isCommand) {
-    return handleCommands(vision.raw);
-  }
+  // 2️⃣ Commands (exact matches only)
+  const command = handleCommands(input);
+  if (command) return command;
 
-  if (vision.isMath) {
-    return handleMath(vision.raw);
-  }
+  // 3️⃣ Math (pure math expressions)
+  const math = handleMath(input);
+  if (math) return math;
 
-  if (vision.isTree) {
-    return handleLanguage(vision.raw);
-  }
+  // 4️⃣ Language / concepts (TREE, explanations, etc.)
+  const language = handleLanguage(input);
+  if (language) return language;
 
-  if (vision.isQuestion) {
-    return "That’s a good question 🤔 Tell me more.";
-  }
-
+  // 5️⃣ Fallback (last resort)
   return fallback();
 }
