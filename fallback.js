@@ -1,3 +1,4 @@
+// fallback.js
 export function fallback() {
-  return "I see the words, but not the meaning yet 👀🧠";
+  return "Sorry, I cannot understand this yet, I am still learning and trying to improve 😅";
 }
