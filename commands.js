@@ -1,9 +1,17 @@
 export function handleCommands(text) {
-  const t = text.toLowerCase();
+  const t = text.toLowerCase().trim();
 
-  if (t === "owner" || t.includes("your owner")) {
-    return "My owner is Mitko. You should follow him on YouTube — Robux_Gaming_Gamer 😃";
+  if (t === "hello" || t === "hi") {
+    return "Hello! 😊";
   }
 
-  return null;
+  if (t === "who is your owner?" || t === "owner") {
+    return "My owner is Mitko. You should follow him on YouTube: Robux_Gaming_Gamer 😃";
+  }
+
+  if (t === "stop") {
+    return "Okay, stopping that behavior.";
+  }
+
+  return null; // 🚨 REQUIRED
 }
