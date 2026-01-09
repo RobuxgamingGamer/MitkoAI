@@ -3,122 +3,102 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-body {
+html, body {
   margin: 0;
-  background: radial-gradient(circle at top, #0a1a2f, #000814);
-  color: #e6f1ff;
+  padding: 0;
+  height: 100%;
+  background: radial-gradient(circle at top, #0a1a2f, #050b14);
+  color: white;
+}
+
+.app {
   height: 100vh;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Tabs */
 .tabs {
   display: flex;
-  border-bottom: 1px solid #0ff;
+  background: #050b14;
+  border-bottom: 1px solid #0bf;
 }
 
 .tabs button {
   flex: 1;
-  background: transparent;
+  padding: 14px;
+  background: none;
   border: none;
-  color: #7dd3fc;
-  padding: 12px;
+  color: #9adfff;
   font-size: 16px;
-  cursor: pointer;
 }
 
-.tabs button:hover {
-  background: rgba(0, 255, 255, 0.1);
+.tabs button.active {
+  background: rgba(0, 191, 255, 0.15);
+  color: white;
 }
 
-/* Tab content */
-.tab {
+/* Screens */
+.screen {
   display: none;
-  height: calc(100vh - 48px);
+  flex: 1;
+  overflow: hidden;
 }
 
-.tab.active {
+.screen.active {
   display: flex;
   flex-direction: column;
 }
 
-/* Chat messages area */
+/* Messages */
 #messages {
   flex: 1;
-  padding: 16px;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  padding: 16px;
 }
 
-/* Message bubbles */
 .msg {
-  max-width: 75%;
-  padding: 12px 16px;
-  border-radius: 16px;
+  max-width: 80%;
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
   line-height: 1.4;
-  word-wrap: break-word;
-  box-shadow: 0 0 12px rgba(0, 255, 255, 0.25);
 }
 
-.msg.ai {
-  align-self: flex-start;
-  background: rgba(0, 255, 255, 0.08);
-  border: 1px solid #00ffff;
-}
-
-.msg.user {
-  align-self: flex-end;
-  background: linear-gradient(135deg, #1e90ff, #2563eb);
+.user {
+  margin-left: auto;
+  background: linear-gradient(135deg, #1e90ff, #00bfff);
   color: white;
-  border: 1px solid #60a5fa;
 }
 
-/* Input controls */
-.controls {
+.ai {
+  margin-right: auto;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid #00bfff;
+}
+
+/* Input */
+.input-bar {
   display: flex;
   gap: 10px;
   padding: 12px;
-  border-top: 1px solid #0ff;
-  background: rgba(0, 0, 0, 0.4);
+  background: #050b14;
+  border-top: 1px solid #0bf;
 }
 
-.controls input {
+.input-bar input {
   flex: 1;
   padding: 12px;
   border-radius: 12px;
   border: none;
-  background: #020617;
+  background: #0b1230;
   color: white;
-  outline: none;
 }
 
-.controls button {
-  padding: 12px 18px;
+.input-bar button {
+  padding: 12px 16px;
   border-radius: 12px;
   border: none;
-  background: #0ff;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.controls button:hover {
-  background: #67e8f9;
-}
-
-/* Updates tab */
-#updates {
-  padding: 20px;
-}
-
-#updates ul {
-  list-style: none;
-  padding: 0;
-}
-
-#updates li {
-  margin-bottom: 8px;
-  color: #a5f3fc;
+  background: #1e90ff;
+  color: white;
 }
