@@ -1,40 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MitkoAI</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div id="app">
 
-    <div class="tabs">
-      <button onclick="showTab('chat')" class="active">Chat</button>
-      <button onclick="showTab('updates')">Updates</button>
-    </div>
+  <div class="tabs">
+    <button onclick="showTab('chat')" id="chatTab">Chat</button>
+    <button onclick="showTab('updates')" id="updatesTab">Updates</button>
+  </div>
 
-    <div id="chat" class="tab active">
-      <div id="messages"></div>
+  <div id="chat" class="screen">
+    <div id="messages"></div>
+  </div>
 
-      <div class="input-bar">
-        <input id="input" placeholder="Type a message..." />
-        <button onclick="send()">Send</button>
-      </div>
-    </div>
+  <div id="updates" class="screen hidden">
+    <h2>Updates</h2>
+    <ul>
+      <li>0.1 – Basic chat</li>
+      <li>0.2 – Math engine</li>
+      <li>0.3 – Commands</li>
+      <li>0.4 – Memory</li>
+      <li>0.5 – Modular brain 🧠</li>
+    </ul>
+  </div>
 
-    <div id="updates" class="tab">
-      <h2>Updates</h2>
-      <ul>
-        <li>0.1 – Basic chat</li>
-        <li>0.2 – Math engine</li>
-        <li>0.3 – Commands</li>
-        <li>0.4 – Memory</li>
-        <li>0.5 – Modular brain 🧠</li>
-      </ul>
-    </div>
-
+  <div class="input-bar">
+    <input id="input" placeholder="Type a message..." />
+    <button onclick="send()">Send</button>
   </div>
 
   <script src="app.js"></script>
