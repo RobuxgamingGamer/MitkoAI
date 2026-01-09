@@ -1,19 +1,21 @@
-import { handleMath } from "./math.js";
-import { handleCommands } from "./commands.js";
-import { handleLanguage } from "./language.js";
-import { fallback } from "./fallback.js";
+function route(text) {
+  const t = text.toLowerCase();
 
-export function route(text) {
-  let result;
+  if (t.includes("owner")) {
+    return "My Owner is Mitko, you should follow him on YouTube: Robux_Gaming_Gamer 😃";
+  }
 
-  result = handleCommands(text);
-  if (result) return result;
+  if (t === "hi" || t === "hello") {
+    return "Hello! 👋";
+  }
 
-  result = handleMath(text);
-  if (result) return result;
+  if (t === "why") {
+    return "Because I am still learning 🙂";
+  }
 
-  result = handleLanguage(text);
-  if (result) return result;
+  if (t === "1+1") {
+    return "2";
+  }
 
-  return fallback(text);
+  return "Sorry, I cannot understand this yet, I am still learning and trying to improve.";
 }
