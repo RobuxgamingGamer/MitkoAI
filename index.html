@@ -15,27 +15,24 @@
       <button onclick="UI.showTab('updates')">Updates</button>
     </div>
 
-    <div class="content">
+    <div id="chat" class="tab active">
+      <div id="messages"></div>
 
-      <div id="chat" class="tab active">
-        <div id="messages"></div>
+      <div class="controls">
+        <input id="input" placeholder="Type a message..." />
+        <button onclick="UI.send()">Send</button>
       </div>
-
-      <div id="updates" class="tab">
-        <h2>Updates</h2>
-        <ul id="updateList"></ul>
-      </div>
-
     </div>
 
-    <div class="controls">
-      <input id="input" placeholder="Type a message..." />
-      <button onclick="UI.send()">Send</button>
+    <div id="updates" class="tab">
+      <h2>Updates</h2>
+      <ul id="updateList"></ul>
     </div>
 
   </div>
 
   <script src="ui.js"></script>
   <script src="app.js"></script>
+
 </body>
 </html>
