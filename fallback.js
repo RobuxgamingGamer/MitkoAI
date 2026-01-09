@@ -1,10 +1,10 @@
-function fallback(text) {
-  const tips = [
-    "Bro I stared at that sentence and nothing happened 🧠💨",
-    "I’m calling Mitko 📞",
-    "That went straight over my CPU",
-    "Try again but with less chaos 😭"
+export function fallback(text) {
+  const jokes = [
+    "I have no idea what you just said. I’m calling Mitko 📞",
+    "That sentence escaped my brain 💀",
+    "Error 404: Intelligence not found (yet)",
+    "I’m still learning, don’t bully me 😭"
   ];
 
-  return tips[Math.floor(Math.random() * tips.length)];
+  return jokes[Math.floor(Math.random() * jokes.length)];
 }
