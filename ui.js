@@ -2,9 +2,7 @@ import { route } from "./router.js";
 
 window.UI = {
   showTab(id) {
-    document.querySelectorAll(".tab").forEach(t =>
-      t.classList.remove("active")
-    );
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
     document.getElementById(id).classList.add("active");
   },
 
@@ -13,11 +11,11 @@ window.UI = {
     const text = input.value.trim();
     if (!text) return;
 
-    this.addMessage(text, "user");
+    UI.addMessage(text, "user");
     input.value = "";
 
     const reply = route(text);
-    this.addMessage(reply, "ai");
+    UI.addMessage(reply, "ai");
   },
 
   addMessage(text, type) {
@@ -29,4 +27,8 @@ window.UI = {
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
   }
+};
+
+window.onload = () => {
+  UI.addMessage("MitkoAI online. 🧠", "ai");
 };
