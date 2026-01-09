@@ -1,58 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>MitkoAI 0.5</title>
-<link rel="stylesheet" href="style.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>MitkoAI</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-<div class="top-warning">
-⚠️ Experimental AI — Limited intelligence & tools. Do NOT share personal data.
+
+<div class="app">
+  <div class="tabs">
+    <button onclick="showTab('chat')">Chat</button>
+    <button onclick="showTab('updates')">Updates</button>
+  </div>
+
+  <div id="chat" class="tab active">
+    <div id="messages"></div>
+    <div class="controls">
+      <input id="input" placeholder="Type a message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <div id="updates" class="tab">
+    <pre id="updateLog"></pre>
+  </div>
 </div>
 
-<header>
-<h1>MitkoAI 0.5</h1>
-<div class="tabs">
-<button class="tab active" onclick="showTab('chat')">Chat</button>
-<button class="tab" onclick="showTab('updates')">Updates</button>
-</div>
-</header>
+<script src="app.js"></script>
+<script src="core/config.js"></script>
+<script src="core/router.js"></script>
 
-<main>
-<section id="chat" class="tab-content active">
-<div id="chatBox"></div>
+<script src="memory/shortTerm.js"></script>
+<script src="memory/context.js"></script>
 
-<div class="controls">
-<button onclick="openImage()">📷</button>
-<input type="file" id="imageInput" accept="image/*" hidden>
-<input id="userInput" placeholder="Type a message or !help">
-<button onclick="sendMessage()">Send</button>
-</div>
-</section>
+<script src="language/intent.js"></script>
 
-<section id="updates" class="tab-content">
-<h2>🧠 MitkoAI Updates</h2>
-<ul>
-<li><b>0.0</b> — Prototype responses</li>
-<li><b>0.1</b> — Emotion simulation</li>
-<li><b>0.2</b> — Intelligence-first logic</li>
-<li><b>0.3</b> — Safety + structure</li>
-<li><b>0.4</b> — Math + owner info</li>
-<li><b>0.5</b> — 🛠 Mitko Tools, Image Analyzer, Memory</li>
-</ul>
+<script src="math/calculator.js"></script>
+<script src="math/algebra.js"></script>
 
-<h3>🛠 Mitko Tools</h3>
-<ul>
-<li><code>!math 2+2</code></li>
-<li><code>!image check</code></li>
-<li><code>!owner</code></li>
-<li><code>!help</code></li>
-</ul>
-</section>
-</main>
+<script src="commands/owner.js"></script>
+<script src="responses/fallback.js"></script>
 
-<script src="script.js"></script>
+<script src="updates/renderUpdates.js"></script>
+<script src="ui/tabs.js"></script>
 </body>
 </html>
