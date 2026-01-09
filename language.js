@@ -1,18 +1,13 @@
 export function handleLanguage(text) {
   const t = text.toLowerCase();
 
-  if (t === "hello" || t === "hi" || t === "hey") {
-    return "Hello! 👋";
+  if (t.includes("hate")) {
+    return "I’m sorry you feel that way 😕";
   }
 
-  if (t.includes("how are you")) {
-    return "I am operational.";
+  if (t.includes("why")) {
+    return "That’s a good question. Can you explain more?";
   }
 
-  if (t.includes("who are you")) {
-    return "I am MitkoAI.";
-  }
-
-  // ❗ VERY IMPORTANT
-  return null;
+  return null; // 🚨 REQUIRED
 }
