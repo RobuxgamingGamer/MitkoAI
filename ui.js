@@ -1,6 +1,11 @@
 import { route } from "./router.js";
 
 window.UI = {
+  showTab(id) {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  },
+
   send() {
     const input = document.getElementById("input");
     const text = input.value.trim();
@@ -10,18 +15,15 @@ window.UI = {
     input.value = "";
 
     const reply = route(text);
-    if (reply) {
-      setTimeout(() => {
-        UI.addMessage(reply, "ai");
-      }, 300);
-    }
+    UI.addMessage(reply, "ai");
   },
 
   addMessage(text, type) {
-    const messages = document.getElementById("messages");
     const div = document.createElement("div");
     div.className = `message ${type}`;
     div.textContent = text;
+
+    const messages = document.getElementById("messages");
     messages.appendChild(div);
     messages.scrollTop = messages.scrollHeight;
   }
