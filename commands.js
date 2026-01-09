@@ -1,13 +1,7 @@
-function handleCommands(text) {
-  const t = text.toLowerCase();
-
-  if (t === "hi" || t === "hello") {
-    return "Hey 👋 I’m MitkoAI.";
+export function handleCommands(text) {
+  if (/^stop$/i.test(text)) {
+    return "Alright, stopping. For now 😶";
   }
 
-  if (t === "who made you") {
-    return "Mitko did 😎";
-  }
-
-  return null;
+  return "Command recognized, but not implemented yet.";
 }
