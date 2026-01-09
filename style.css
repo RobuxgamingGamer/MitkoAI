@@ -1,89 +1,78 @@
 * {
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
 }
 
-html, body {
+body {
   margin: 0;
-  padding: 0;
-  height: 100%;
-  background: radial-gradient(circle at top, #0a1a2f, #050b14);
+  background: radial-gradient(circle at top, #0a1a2f, #02070f);
   color: white;
+  height: 100vh;
 }
 
-.app {
-  height: 100vh;
+#app {
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
-/* Tabs */
 .tabs {
   display: flex;
-  background: #050b14;
-  border-bottom: 1px solid #0bf;
+  background: #061427;
 }
 
 .tabs button {
   flex: 1;
-  padding: 14px;
-  background: none;
+  padding: 12px;
   border: none;
-  color: #9adfff;
+  background: none;
+  color: #6fb8ff;
   font-size: 16px;
 }
 
 .tabs button.active {
-  background: rgba(0, 191, 255, 0.15);
-  color: white;
+  border-bottom: 2px solid #4da3ff;
 }
 
-/* Screens */
-.screen {
+.tab {
   display: none;
   flex: 1;
-  overflow: hidden;
 }
 
-.screen.active {
+.tab.active {
   display: flex;
   flex-direction: column;
 }
 
-/* Messages */
 #messages {
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
+  padding: 15px;
 }
 
-.msg {
+.message {
   max-width: 80%;
   margin-bottom: 12px;
-  padding: 12px 14px;
+  padding: 12px;
   border-radius: 14px;
   line-height: 1.4;
 }
 
 .user {
+  background: linear-gradient(135deg, #2f7cff, #5aa2ff);
   margin-left: auto;
-  background: linear-gradient(135deg, #1e90ff, #00bfff);
-  color: white;
 }
 
 .ai {
-  margin-right: auto;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid #00bfff;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid #2f7cff;
 }
 
-/* Input */
 .input-bar {
   display: flex;
   gap: 10px;
   padding: 12px;
-  background: #050b14;
-  border-top: 1px solid #0bf;
+  background: #061427;
 }
 
 .input-bar input {
@@ -91,14 +80,15 @@ html, body {
   padding: 12px;
   border-radius: 12px;
   border: none;
-  background: #0b1230;
+  background: #0b1e35;
   color: white;
 }
 
 .input-bar button {
-  padding: 12px 16px;
+  padding: 12px 18px;
   border-radius: 12px;
   border: none;
-  background: #1e90ff;
+  background: #2f7cff;
   color: white;
+  font-size: 16px;
 }
