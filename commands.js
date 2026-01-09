@@ -1,7 +1,9 @@
-function isOwner(text) {
-  return text.toLowerCase().includes("owner");
-}
-
-function ownerResponse() {
-  return "My owner is Mitko. Follow him on YouTube: Robux_Gaming_Gamer 😃";
-}
+const Commands = {
+  handle(text) {
+    if (text.startsWith("!")) {
+      if (text === "!owner") return "Owner: Mitko 👑";
+      if (text === "!help") return "Available: math, questions, commands";
+    }
+    return null;
+  }
+};
