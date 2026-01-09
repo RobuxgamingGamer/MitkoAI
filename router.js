@@ -4,10 +4,16 @@ import { handleLanguage } from "./language.js";
 import { fallback } from "./fallback.js";
 
 export function route(text) {
-  return (
-    handleCommands(text) ??
-    handleMath(text) ??
-    handleLanguage(text) ??
-    fallback()
-  );
+  let result;
+
+  result = handleCommands(text);
+  if (result) return result;
+
+  result = handleMath(text);
+  if (result) return result;
+
+  result = handleLanguage(text);
+  if (result) return result;
+
+  return fallback(text);
 }
