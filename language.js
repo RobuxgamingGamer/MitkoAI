@@ -1,9 +1,7 @@
 export function handleLanguage(text) {
-  const t = text.toLowerCase();
+  if (/tree\(3\)/i.test(text)) {
+    return "TREE(3) is so large it can’t be written and cannot fit in the universe, but it is still a finite number.";
+  }
 
-  if (t === "hi" || t === "hello") return "Hello! 👋";
-  if (t === "why") return "Can you explain what you mean?";
-  if (t.includes("owner")) return "My owner is Mitko. You should follow him on YouTube — Robux_Gaming_Gamer 😃";
-
-  return null;
+  return "TREE(n) grows insanely fast. Even small values explode beyond comprehension.";
 }
