@@ -4,8 +4,8 @@
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont;
-  background: linear-gradient(160deg, #020617, #020617);
+  font-family: system-ui, -apple-system;
+  background: radial-gradient(circle at top, #0a1a33, #020814);
   color: white;
   height: 100vh;
   overflow: hidden;
@@ -21,61 +21,65 @@ body {
   background: #1e90ff;
   border: none;
   color: white;
-  padding: 8px 14px;
-  border-radius: 999px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
 }
 
 .tab {
   display: none;
-  height: calc(100vh - 56px);
+  padding: 10px;
+  height: calc(100vh - 140px);
 }
 
 .tab.active {
-  display: flex;
-  flex-direction: column;
+  display: block;
 }
 
 #messages {
-  flex: 1;
-  padding: 12px;
+  height: 100%;
   overflow-y: auto;
+  padding-bottom: 20px;
 }
 
 .message {
   max-width: 80%;
-  margin-bottom: 10px;
   padding: 10px 14px;
-  border-radius: 16px;
+  margin: 8px 0;
+  border-radius: 18px;
 }
 
 .message.user {
   background: #1e90ff;
-  align-self: flex-end;
+  margin-left: auto;
 }
 
 .message.ai {
-  background: #0f172a;
+  background: #142850;
   border: 1px solid #1e90ff;
-  align-self: flex-start;
 }
 
 .controls {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
   display: flex;
   gap: 8px;
-  padding: 10px;
 }
 
 .controls input {
   flex: 1;
   padding: 10px;
-  border-radius: 12px;
+  border-radius: 20px;
   border: none;
 }
 
 .controls button {
-  padding: 10px 16px;
-  border-radius: 12px;
+  padding: 10px 18px;
+  border-radius: 20px;
   border: none;
   background: #1e90ff;
   color: white;
+  font-weight: bold;
 }
