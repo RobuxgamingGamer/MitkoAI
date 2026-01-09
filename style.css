@@ -1,60 +1,124 @@
-body {
-  background: radial-gradient(#0a1a2a, #000);
-  color: white;
-  font-family: system-ui;
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-.app {
-  max-width: 700px;
-  margin: auto;
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #0a1a2f, #000814);
+  color: #e6f1ff;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid #0ff;
 }
 
 .tabs button {
-  background: none;
-  color: #4cc9ff;
+  flex: 1;
+  background: transparent;
   border: none;
-  font-size: 18px;
-}
-
-.tab { display: none; }
-.tab.active { display: block; }
-
-#messages {
-  min-height: 400px;
-}
-
-.msg {
+  color: #7dd3fc;
   padding: 12px;
-  margin: 10px;
-  border-radius: 14px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.user {
-  background: #1e90ff;
-  margin-left: auto;
+.tabs button:hover {
+  background: rgba(0, 255, 255, 0.1);
 }
 
-.ai {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid #00bfff;
+/* Tab content */
+.tab {
+  display: none;
+  height: calc(100vh - 48px);
 }
 
+.tab.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Chat messages area */
+#messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Message bubbles */
+.msg {
+  max-width: 75%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.25);
+}
+
+.msg.ai {
+  align-self: flex-start;
+  background: rgba(0, 255, 255, 0.08);
+  border: 1px solid #00ffff;
+}
+
+.msg.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #1e90ff, #2563eb);
+  color: white;
+  border: 1px solid #60a5fa;
+}
+
+/* Input controls */
 .controls {
   display: flex;
   gap: 10px;
+  padding: 12px;
+  border-top: 1px solid #0ff;
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .controls input {
   flex: 1;
-  background: #0b1230;
-  color: white;
-  border-radius: 12px;
   padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #020617;
+  color: white;
+  outline: none;
 }
 
 .controls button {
-  background: #1e90ff;
-  color: white;
+  padding: 12px 18px;
   border-radius: 12px;
-  padding: 12px;
+  border: none;
+  background: #0ff;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background: #67e8f9;
+}
+
+/* Updates tab */
+#updates {
+  padding: 20px;
+}
+
+#updates ul {
+  list-style: none;
+  padding: 0;
+}
+
+#updates li {
+  margin-bottom: 8px;
+  color: #a5f3fc;
 }
