@@ -1,8 +1,9 @@
-import { route } from "./router.js";
-
+// ui.js
 window.UI = {
   showTab(tab) {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".tab").forEach(t => {
+      t.classList.remove("active");
+    });
     document.getElementById(tab).classList.add("active");
   },
 
@@ -14,10 +15,15 @@ window.UI = {
     UI.addMessage(text, "user");
     input.value = "";
 
+    // Call router safely
     setTimeout(() => {
-      const reply = route(text);
-      UI.addMessage(reply, "ai");
-    }, 300);
+      if (window.route) {
+        const reply = route(text);
+        UI.addMessage(reply, "ai");
+      } else {
+        UI.addMessage("Router not loaded.", "ai");
+      }
+    }, 200);
   },
 
   addMessage(text, type) {
