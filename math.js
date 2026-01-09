@@ -1,21 +1,19 @@
-const MathEngine = {
-  handle(text) {
-    try {
-      if (!/[0-9]/.test(text)) return null;
+export function handleMath(text) {
+  const clean = text
+    .toLowerCase()
+    .replace("plus", "+")
+    .replace("minus", "-")
+    .replace("times", "*")
+    .replace("x", "*")
+    .replace("÷", "/");
 
-      const cleaned = text
-        .replace(/plus/gi, "+")
-        .replace(/minus/gi, "-")
-        .replace(/times|x/gi, "*")
-        .replace(/divided by/gi, "/")
-        .replace(/[^0-9+\-*/().]/g, "");
+  if (!/[0-9+\-*/().]/.test(clean)) return null;
 
-      if (!cleaned) return null;
-
-      const result = Function("return " + cleaned)();
-      return `🧮 ${cleaned} = ${result}`;
-    } catch {
-      return "❌ Invalid math expression.";
-    }
+  try {
+    const result = Function("return " + clean)();
+    if (result === Infinity) return "That result is Infinity ♾️";
+    return `🧮 ${clean} = ${result}`;
+  } catch {
+    return null;
   }
-};
+}
