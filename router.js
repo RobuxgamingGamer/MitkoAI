@@ -8,9 +8,9 @@ import { fallback } from "./fallback.js";
 export function route(text) {
   return (
     handleCommands(text) ||
-    handleMath(text) ||
-    handleQuestions(text) ||
+    handleQuestions(text) ||   // MUST be before math
     handleLanguage(text) ||
+    handleMath(text) ||        // MUST be last
     fallback()
   );
 }
