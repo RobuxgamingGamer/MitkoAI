@@ -1,38 +1,27 @@
-// ui.js
-window.UI = {
-  showTab(tab) {
-    document.querySelectorAll(".tab").forEach(t => {
-      t.classList.remove("active");
-    });
-    document.getElementById(tab).classList.add("active");
-  },
+const input = document.getElementById("input");
+const sendBtn = document.getElementById("sendBtn");
+const messages = document.getElementById("messages");
 
-  send() {
-    const input = document.getElementById("input");
-    const text = input.value.trim();
-    if (!text) return;
+function addMessage(text, type) {
+  const div = document.createElement("div");
+  div.className = `message ${type}`;
+  div.textContent = text;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
 
-    UI.addMessage(text, "user");
-    input.value = "";
+function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
 
-    // Call router safely
-    setTimeout(() => {
-      if (window.route) {
-        const reply = route(text);
-        UI.addMessage(reply, "ai");
-      } else {
-        UI.addMessage("Router not loaded.", "ai");
-      }
-    }, 200);
-  },
+  addMessage(text, "user");
+  input.value = "";
 
-  addMessage(text, type) {
-    const div = document.createElement("div");
-    div.className = `message ${type}`;
-    div.textContent = text;
+  const reply = route(text);
+  addMessage(reply, "ai");
+}
 
-    const messages = document.getElementById("messages");
-    messages.appendChild(div);
-    messages.scrollTop = messages.scrollHeight;
-  }
-};
+sendBtn.onclick = sendMessage;
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter") sendMessage();
+});
