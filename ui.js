@@ -4,11 +4,26 @@ const UI = {
     document.getElementById(tab).classList.add("active");
   },
 
-  addMessage(text, who) {
+  send() {
+    const input = document.getElementById("input");
+    const text = input.value.trim();
+    if (!text) return;
+
+    UI.addMessage(text, "user");
+    input.value = "";
+
+    setTimeout(() => {
+      UI.addMessage("I am operational.", "ai");
+    }, 400);
+  },
+
+  addMessage(text, type) {
     const msg = document.createElement("div");
-    msg.className = `msg ${who}`;
+    msg.className = `msg ${type}`;
     msg.textContent = text;
-    document.getElementById("messages").appendChild(msg);
-    msg.scrollIntoView({ behavior: "smooth" });
+
+    const messages = document.getElementById("messages");
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
   }
 };
