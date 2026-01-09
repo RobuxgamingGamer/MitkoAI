@@ -1,3 +1,4 @@
+import "./updates.js";
 import { route } from "./router.js";
 
 window.UI = {
