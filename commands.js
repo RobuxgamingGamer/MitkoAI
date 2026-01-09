@@ -1,7 +1,10 @@
 export function handleCommands(text) {
-  if (/^stop$/i.test(text)) {
+  const t = text.trim().toLowerCase();
+
+  if (t === "stop") {
     return "Alright, stopping. For now 😶";
   }
 
-  return "Command recognized, but not implemented yet.";
+  // IMPORTANT
+  return null;
 }
