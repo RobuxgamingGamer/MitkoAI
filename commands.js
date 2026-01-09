@@ -1,12 +1,12 @@
-export function handleCommands(text) {
+function handleCommands(text) {
   const t = text.toLowerCase();
 
-  if (t === "hello" || t === "hi") {
-    return "Hello! 👋";
+  if (t === "hi" || t === "hello") {
+    return "Hey 👋 I’m MitkoAI.";
   }
 
-  if (t.includes("owner")) {
-    return "My owner is Mitko. You should follow him on YouTube — Robux_Gaming_Gamer 😄";
+  if (t === "who made you") {
+    return "Mitko did 😎";
   }
 
   return null;
