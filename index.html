@@ -2,32 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MitkoAI</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <div id="app">
 
-    <header>
+  <div class="app">
+
+    <div class="tabs">
       <button onclick="UI.showTab('chat')">Chat</button>
       <button onclick="UI.showTab('updates')">Updates</button>
-    </header>
+    </div>
 
-    <main id="chat" class="tab active">
-      <div id="messages"></div>
-    </main>
+    <div class="content">
 
-    <main id="updates" class="tab">
-      <h2>Updates</h2>
-      <ul id="updateList"></ul>
-    </main>
+      <div id="chat" class="tab active">
+        <div id="messages"></div>
+      </div>
 
-    <footer>
-      <input id="input" type="text" placeholder="Type a message..." />
-      <button id="sendBtn">Send</button>
-    </footer>
+      <div id="updates" class="tab">
+        <h2>Updates</h2>
+        <ul id="updateList"></ul>
+      </div>
+
+    </div>
+
+    <div class="controls">
+      <input id="input" placeholder="Type a message..." />
+      <button onclick="UI.send()">Send</button>
+    </div>
 
   </div>
 
