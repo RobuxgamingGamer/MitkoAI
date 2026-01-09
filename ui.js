@@ -2,7 +2,9 @@ import { route } from "./router.js";
 
 window.UI = {
   showTab(id) {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".tab").forEach(t =>
+      t.classList.remove("active")
+    );
     document.getElementById(id).classList.add("active");
   },
 
@@ -11,11 +13,11 @@ window.UI = {
     const text = input.value.trim();
     if (!text) return;
 
-    UI.addMessage(text, "user");
+    this.addMessage(text, "user");
     input.value = "";
 
     const reply = route(text);
-    UI.addMessage(reply, "ai");
+    this.addMessage(reply, "ai");
   },
 
   addMessage(text, type) {
