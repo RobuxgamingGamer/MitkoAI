@@ -1,21 +1,13 @@
-function route(text) {
-  const t = text.toLowerCase();
+import { handleMath } from "./math.js";
+import { handleCommands } from "./commands.js";
+import { handleLanguage } from "./language.js";
+import { fallback } from "./fallback.js";
 
-  if (t.includes("owner")) {
-    return "My Owner is Mitko, you should follow him on YouTube: Robux_Gaming_Gamer 😃";
-  }
-
-  if (t === "hi" || t === "hello") {
-    return "Hello! 👋";
-  }
-
-  if (t === "why") {
-    return "Because I am still learning 🙂";
-  }
-
-  if (t === "1+1") {
-    return "2";
-  }
-
-  return "Sorry, I cannot understand this yet, I am still learning and trying to improve.";
+export function route(text) {
+  return (
+    handleCommands(text) ??
+    handleMath(text) ??
+    handleLanguage(text) ??
+    fallback(text)
+  );
 }
