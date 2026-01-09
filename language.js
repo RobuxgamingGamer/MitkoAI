@@ -1,9 +1,9 @@
 export function handleLanguage(text) {
-  if (text.length < 2) return null;
+  const t = text.toLowerCase();
 
-  if (text.endsWith("?")) {
-    return "That’s a good question 🤔";
-  }
+  if (t === "hi" || t === "hello") return "Hello! 👋";
+  if (t === "why") return "Can you explain what you mean?";
+  if (t.includes("owner")) return "My owner is Mitko. You should follow him on YouTube — Robux_Gaming_Gamer 😃";
 
   return null;
 }
