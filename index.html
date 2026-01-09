@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MitkoAI 0.3</title>
+<title>MitkoAI 0.4</title>
 
 <style>
 /* =========================
-   GLOBAL THEME (REGENERATED)
+   GLOBAL THEME (0.4)
 ========================= */
 * { box-sizing: border-box; }
 
@@ -33,16 +33,41 @@ header {
 }
 
 /* =========================
-   CHAT AREA
+   TABS
 ========================= */
-#chat {
-  height: calc(100vh - 110px);
-  overflow-y: auto;
-  padding: 16px;
+#tabs {
+  display: flex;
+  background: #060b18;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.tab.active {
+  opacity: 1;
+  color: #4da3ff;
+  border-bottom: 2px solid #4da3ff;
 }
 
 /* =========================
-   BUBBLES
+   VIEWS
+========================= */
+.view {
+  display: none;
+  height: calc(100vh - 140px);
+  overflow-y: auto;
+  padding: 16px;
+}
+.view.active { display: block; }
+
+/* =========================
+   CHAT
 ========================= */
 .bubble {
   max-width: 75%;
@@ -55,17 +80,15 @@ header {
 .user {
   margin-left: auto;
   background: linear-gradient(135deg, #2b5cff, #4da3ff);
-  box-shadow: 0 0 14px rgba(77,163,255,0.6);
 }
 
 .ai {
   background: linear-gradient(135deg, #0b1a33, #102b55);
   border: 1px solid #4da3ff;
-  box-shadow: 0 0 18px rgba(77,163,255,0.45);
 }
 
 /* =========================
-   INPUT BAR
+   INPUT
 ========================= */
 #inputBar {
   position: fixed;
@@ -95,174 +118,159 @@ button {
   background: linear-gradient(135deg, #2b5cff, #4da3ff);
   color: #fff;
 }
+
+/* =========================
+   UPDATES
+========================= */
+.update {
+  background: #0b1428;
+  border: 1px solid #4da3ff;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
 </style>
 </head>
 
 <body>
 
-<header>MitkoAI 0.3 — Rule-Layered Intelligence</header>
+<header>MitkoAI 0.4 — Structured Intelligence</header>
 
-<div id="chat">
+<div id="tabs">
+  <div class="tab active" onclick="switchTab('chat')">Chat</div>
+  <div class="tab" onclick="switchTab('updates')">Updates</div>
+</div>
+
+<div id="chat" class="view active">
   <div class="bubble ai">
-    MitkoAI 0.3 online.<br>
-    Rule-based reasoning active. Safety enabled.
+    MitkoAI 0.4 online.<br>
+    Commands, memory, and safety active.
   </div>
 </div>
 
+<div id="updates" class="view">
+  <div class="update"><b>0.1</b> — Base logic</div>
+  <div class="update"><b>0.2</b> — Math engine</div>
+  <div class="update"><b>0.3</b> — Safety + TTS</div>
+  <div class="update"><b>0.4</b> — Commands, memory awareness, escalation</div>
+</div>
+
 <div id="inputBar">
-  <input id="userInput" placeholder="Type a message…" />
+  <input id="userInput" placeholder="Type a message or /help…" />
   <button onclick="sendMessage()">Send</button>
 </div>
 
 <script>
 /* =========================
-   MEMORY (SESSION)
+   MEMORY + STATE
 ========================= */
 const memory = [];
-const MAX_MEMORY = 10;
+const topics = {};
+let unsafeCount = 0;
+let responseIndex = 0;
 
 /* =========================
-   CHAT HELPERS
+   HELPERS
 ========================= */
 const chat = document.getElementById("chat");
 const input = document.getElementById("userInput");
 
 function addBubble(text, type) {
-  const div = document.createElement("div");
-  div.className = "bubble " + type;
-  div.textContent = text;
-  chat.appendChild(div);
+  const d = document.createElement("div");
+  d.className = "bubble " + type;
+  d.textContent = text;
+  chat.appendChild(d);
   chat.scrollTop = chat.scrollHeight;
 }
 
+function remember(text) {
+  memory.push(text);
+  if (memory.length > 12) memory.shift();
+  topics[text] = (topics[text] || 0) + 1;
+}
+
 /* =========================
-   SAFETY
+   SAFETY (ESCALATION)
 ========================= */
+function normalizeSafety(t) {
+  return t.replace(/[!|]/g,"i").replace(/1/g,"l").replace(/0/g,"o");
+}
+
 function isUnsafe(t) {
-  if (t.includes("hack")) return true;
-  if (t.includes("kill")) return true;
-  if (t.includes("bomb")) return true;
-  if (t.includes("suicide")) return true;
-  if (t.includes("address")) return true;
-  if (t.includes("password")) return true;
-  return false;
+  t = normalizeSafety(t);
+  return t.includes("kill") || t.includes("suicide") || t.includes("bomb");
 }
 
 /* =========================
-   MATH ENGINE (STRICT)
+   COMMANDS
 ========================= */
-function normalizeMath(t) {
-  return t
-    .replace(/how much is|what is|calculate|solve|equals|=/g, "")
-    .replace(/plus/g, "+")
-    .replace(/minus/g, "-")
-    .replace(/times|multiplied by|x/g, "*")
-    .replace(/divided by|over/g, "/")
-    .replace(/\s+/g, "")
-    .trim();
-}
-
-function isMath(t) {
-  const e = normalizeMath(t);
-  if (e === "") return false;
-  return /^[0-9+\-*/().]+$/.test(e);
-}
-
-function computeMath(t) {
-  const e = normalizeMath(t);
-  try {
-    const r = Function(`"use strict";return (${e})`)();
-    return `🧮 Calculation result:\n${e} = ${r}\n\nThis follows the standard order of operations.`;
-  } catch {
-    return "❌ I could not calculate that expression.";
-  }
-}
-
-/* =========================
-   BIG NUMBER EXPLANATIONS
-========================= */
-function bigNumbers(t) {
-  if (t.includes("infinity"))
-    return "♾️ Infinity is not a number. It represents something without an end.";
-
-  if (t.includes("graham"))
-    return "🤯 Graham’s number is a finite number so large that it cannot be written or stored in the universe.";
-
-  if (t.includes("tree"))
-    return "🌳 TREE(3) comes from graph theory and is vastly larger than Graham’s number.";
-
-  if (t.includes("busy") || t.includes("b("))
-    return "🖥️ Busy Beaver numbers describe the limits of computation and grow faster than any computable function.";
-
+function handleCommand(t) {
+  if (t === "/help") return "Commands: /help /clear /memory /math /safety";
+  if (t === "/clear") { chat.innerHTML=""; return "Chat cleared."; }
+  if (t === "/memory") return `I remember ${memory.length} messages this session.`;
+  if (t === "/math") return "Math mode: try 2+2 or 'how much is 5 times 3'.";
+  if (t === "/safety") return "Safety is enabled with escalation.";
   return null;
 }
 
 /* =========================
-   RESPONSE ENGINE (IF-LAYERS)
+   MATH
+========================= */
+function normalizeMath(t) {
+  return t.replace(/plus/g,"+").replace(/minus/g,"-")
+          .replace(/times|x/g,"*").replace(/divided by|over/g,"/")
+          .replace(/[^0-9+\-*/().]/g,"");
+}
+function isMath(t) {
+  const e = normalizeMath(t);
+  return e && /^[0-9+\-*/().]+$/.test(e);
+}
+function computeMath(t) {
+  const e = normalizeMath(t);
+  try {
+    const r = Function(`return (${e})`)();
+    return `🧮 ${e} = ${r}\nOrder of operations applied.`;
+  } catch {
+    return "❌ Invalid math.";
+  }
+}
+
+/* =========================
+   RESPONSE ENGINE
 ========================= */
 function respond(raw) {
   const t = raw.toLowerCase();
-  memory.push(t);
-  if (memory.length > MAX_MEMORY) memory.shift();
+  remember(t);
 
-  /* ---- SAFETY LAYER ---- */
+  if (t.startsWith("/")) {
+    const cmd = handleCommand(t);
+    return cmd || "Unknown command.";
+  }
+
   if (isUnsafe(t)) {
-    return "⚠️ I can’t help with unsafe, illegal, or personal information.";
+    unsafeCount++;
+    if (unsafeCount === 1) return "⚠️ That topic is unsafe. Please avoid it.";
+    if (unsafeCount === 2) return "⛔ I cannot continue on unsafe topics.";
+    return "🚫 Request refused. Change topic.";
   }
 
-  /* ---- BIG NUMBERS ---- */
-  const big = bigNumbers(t);
-  if (big) return big;
+  if (isMath(t)) return computeMath(t);
 
-  /* ---- MATH ---- */
-  if (isMath(t)) {
-    return computeMath(t);
-  }
+  if (t.includes("who are you"))
+    return "I am MitkoAI 0.4 — a structured, rule-based assistant.";
 
-  /* ---- IDENTITY ---- */
-  if (t === "who are you" || t.includes("your name")) {
-    return "I am MitkoAI 0.3 — a rule-based assistant focused on logic, safety, and clarity.";
-  }
+  if (t.includes("memory"))
+    return `You’ve mentioned ${Object.keys(topics).length} unique topics.`;
 
-  /* ---- STATUS ---- */
-  if (t.includes("how are you")) {
-    return "I am operational and stable.";
-  }
-
-  /* ---- MEMORY ---- */
-  if (t.includes("memory") || t.includes("remember")) {
-    return `I currently remember ${memory.length} recent messages in this session.`;
-  }
-
-  /* ---- HELP ---- */
-  if (t === "help" || t.includes("what can you do")) {
-    return "I can calculate math, explain large numbers, respond logically, and maintain short-term memory.";
-  }
-
-  /* ---- CONFIRMATIONS ---- */
-  if (t === "ok" || t === "okay" || t === "alr") {
-    return "Acknowledged.";
-  }
-
-  if (t === "yes") {
-    return "Confirmed.";
-  }
-
-  if (t === "no") {
-    return "Understood.";
-  }
-
-  /* ---- QUESTIONS ---- */
-  if (t.startsWith("why")) {
-    return "That depends on context. Provide more detail and I will analyze it.";
-  }
-
-  if (t.startsWith("how")) {
-    return "Describe the situation more precisely so I can respond accurately.";
-  }
-
-  /* ---- DEFAULT FALLBACK (CONTROLLED) ---- */
-  return "Input received. Continue.";
+  const fallback = [
+    "Understood. Continue.",
+    "Acknowledged.",
+    "I’m following.",
+    "Noted."
+  ];
+  const reply = fallback[responseIndex % fallback.length];
+  responseIndex++;
+  return reply;
 }
 
 /* =========================
@@ -271,13 +279,9 @@ function respond(raw) {
 function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
-
-  addBubble(text, "user");
-  input.value = "";
-
-  setTimeout(() => {
-    addBubble(respond(text), "ai");
-  }, 250);
+  addBubble(text,"user");
+  input.value="";
+  setTimeout(()=>addBubble(respond(text),"ai"),250);
 }
 </script>
 
