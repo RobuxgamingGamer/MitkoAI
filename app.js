@@ -3,7 +3,7 @@ const input = document.getElementById("input");
 
 function addMessage(text, type) {
   const div = document.createElement("div");
-  div.className = `message ${type}`;
+  div.className = "message " + type;
   div.textContent = text;
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
@@ -16,9 +16,7 @@ function send() {
   addMessage(text, "user");
   input.value = "";
 
-  setTimeout(() => {
-    respond(text);
-  }, 400);
+  setTimeout(() => respond(text), 300);
 }
 
 function respond(text) {
@@ -36,25 +34,30 @@ function respond(text) {
 
   if (t.includes("owner")) {
     addMessage(
-      "My owner is Mitko. You should follow him on YouTube — Robux_Gaming_Gamer 😃",
+      "My owner is Mitko. Follow him on YouTube — Robux_Gaming_Gamer 😃",
       "ai"
     );
     return;
   }
 
   addMessage(
-    "Sorry, I cannot understand this yet, I am still learning and trying to improve.",
+    "Sorry, I cannot understand this yet. I am still learning and trying to improve.",
     "ai"
   );
 }
 
 function showTab(name) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  document.querySelectorAll(".tabs button").forEach(b => b.classList.remove("active"));
+  document.getElementById("chat").classList.add("hidden");
+  document.getElementById("updates").classList.add("hidden");
+  document.getElementById(name).classList.remove("hidden");
 
-  document.getElementById(name).classList.add("active");
-  event.target.classList.add("active");
+  document.getElementById("chatTab").classList.remove("active");
+  document.getElementById("updatesTab").classList.remove("active");
+
+  if (name === "chat") document.getElementById("chatTab").classList.add("active");
+  if (name === "updates") document.getElementById("updatesTab").classList.add("active");
 }
 
-// Boot message
+// Boot
+showTab("chat");
 addMessage("MitkoAI 0.5 online. Intelligence-first mode active 🧠", "ai");
