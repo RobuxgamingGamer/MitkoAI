@@ -1,17 +1,13 @@
 export function handleCommands(text) {
-  const t = text.toLowerCase().trim();
+  const t = text.toLowerCase();
 
   if (t === "hello" || t === "hi") {
-    return "Hello! 😊";
+    return "Hello! 👋";
   }
 
-  if (t === "who is your owner?" || t === "owner") {
-    return "My owner is Mitko. You should follow him on YouTube: Robux_Gaming_Gamer 😃";
+  if (t.includes("owner")) {
+    return "My owner is Mitko. You should follow him on YouTube — Robux_Gaming_Gamer 😄";
   }
 
-  if (t === "stop") {
-    return "Okay, stopping that behavior.";
-  }
-
-  return null; // 🚨 REQUIRED
+  return null;
 }
