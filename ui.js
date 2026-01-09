@@ -1,10 +1,9 @@
-const UI = {
-  switchTab(tab) {
-    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-    document.querySelectorAll(".view").forEach(v => v.style.display = "none");
+import { route } from "./router.js";
 
-    document.getElementById(tab + "-tab").classList.add("active");
-    document.getElementById(tab + "-view").style.display = "block";
+window.UI = {
+  showTab(tab) {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.getElementById(tab).classList.add("active");
   },
 
   send() {
@@ -15,13 +14,10 @@ const UI = {
     UI.addMessage(text, "user");
     input.value = "";
 
-    if (typeof route !== "function") {
-      UI.addMessage("Router not available.", "ai");
-      return;
-    }
-
-    const reply = route(text);
-    UI.addMessage(reply, "ai");
+    setTimeout(() => {
+      const reply = route(text);
+      UI.addMessage(reply, "ai");
+    }, 300);
   },
 
   addMessage(text, type) {
