@@ -1,10 +1,8 @@
-import { route } from "./router.js";
-
-window.UI = {
+const UI = {
   showTab(tab) {
-    document.querySelectorAll(".tab").forEach(t =>
-      t.classList.remove("active")
-    );
+    document.querySelectorAll(".tab").forEach(t => {
+      t.classList.remove("active");
+    });
     document.getElementById(tab).classList.add("active");
   },
 
@@ -13,13 +11,13 @@ window.UI = {
     const text = input.value.trim();
     if (!text) return;
 
-    UI.addMessage(text, "user");
+    this.addMessage(text, "user");
     input.value = "";
 
     setTimeout(() => {
-      const reply = route(text);
-      UI.addMessage(reply, "ai");
-    }, 200);
+      const response = window.route ? route(text) : "No router loaded.";
+      this.addMessage(response, "ai");
+    }, 300);
   },
 
   addMessage(text, type) {
@@ -32,3 +30,5 @@ window.UI = {
     messages.scrollTop = messages.scrollHeight;
   }
 };
+
+window.UI = UI;
