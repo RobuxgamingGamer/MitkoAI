@@ -14,25 +14,21 @@
   </div>
 
   <div id="chat" class="tab active">
-    <div id="messages"></div>
-
-    <div class="controls">
-      <input id="input" placeholder="Type a message..." />
-      <button onclick="UI.send()">Send</button>
+    <div id="messages">
+      <div class="message ai">MitkoAI online 🧠</div>
     </div>
   </div>
 
   <div id="updates" class="tab">
     <h2>Updates</h2>
-    <ul>
-      <li>0.1 – Basic UI</li>
-      <li>0.2 – Router online</li>
-      <li>0.3 – Mobile fix</li>
-    </ul>
+    <ul id="updateList"></ul>
   </div>
 
-  <script src="router.js"></script>
-  <script src="ui.js"></script>
-  <script src="app.js"></script>
+  <div class="controls">
+    <input id="input" placeholder="Type a message..." />
+    <button onclick="UI.send()">Send</button>
+  </div>
+
+  <script type="module" src="app.js"></script>
 </body>
 </html>
