@@ -1,6 +1,10 @@
-function routeInput(text) {
-  if (isMath(text)) return solveMath(text);
-  if (isAlgebra(text)) return solveAlgebra(text);
-  if (isOwner(text)) return ownerResponse();
-  return fallbackResponse();
-}
+const Router = {
+  route(text) {
+    return (
+      Commands.handle(text) ||
+      MathEngine.handle(text) ||
+      Language.handle(text) ||
+      Fallback.reply()
+    );
+  }
+};
