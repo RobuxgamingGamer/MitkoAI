@@ -1,27 +1,28 @@
-const input = document.getElementById("input");
-const sendBtn = document.getElementById("sendBtn");
-const messages = document.getElementById("messages");
+import { route } from "./router.js";
 
-function addMessage(text, type) {
-  const div = document.createElement("div");
-  div.className = `message ${type}`;
-  div.textContent = text;
-  messages.appendChild(div);
-  messages.scrollTop = messages.scrollHeight;
-}
+window.UI = {
+  send() {
+    const input = document.getElementById("input");
+    const text = input.value.trim();
+    if (!text) return;
 
-function sendMessage() {
-  const text = input.value.trim();
-  if (!text) return;
+    UI.addMessage(text, "user");
+    input.value = "";
 
-  addMessage(text, "user");
-  input.value = "";
+    const reply = route(text);
+    if (reply) {
+      setTimeout(() => {
+        UI.addMessage(reply, "ai");
+      }, 300);
+    }
+  },
 
-  const reply = route(text);
-  addMessage(reply, "ai");
-}
-
-sendBtn.onclick = sendMessage;
-input.addEventListener("keydown", e => {
-  if (e.key === "Enter") sendMessage();
-});
+  addMessage(text, type) {
+    const messages = document.getElementById("messages");
+    const div = document.createElement("div");
+    div.className = `message ${type}`;
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+};
