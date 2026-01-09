@@ -1,7 +1,5 @@
-function route(text) {
-  return (
-    handleCommands(text) ||
-    handleMath(text) ||
-    fallback(text)
-  );
+import { fallback } from "./fallback.js";
+
+export function route(text) {
+  return fallback(text);
 }
