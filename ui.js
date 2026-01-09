@@ -1,8 +1,6 @@
 const UI = {
   showTab(tab) {
-    document.querySelectorAll(".tab").forEach(t => {
-      t.classList.remove("active");
-    });
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
     document.getElementById(tab).classList.add("active");
   },
 
@@ -11,13 +9,13 @@ const UI = {
     const text = input.value.trim();
     if (!text) return;
 
-    this.addMessage(text, "user");
+    UI.addMessage(text, "user");
     input.value = "";
 
     setTimeout(() => {
-      const response = window.route ? route(text) : "No router loaded.";
-      this.addMessage(response, "ai");
-    }, 300);
+      const reply = route(text);
+      UI.addMessage(reply, "ai");
+    }, 200);
   },
 
   addMessage(text, type) {
@@ -30,5 +28,3 @@ const UI = {
     messages.scrollTop = messages.scrollHeight;
   }
 };
-
-window.UI = UI;
