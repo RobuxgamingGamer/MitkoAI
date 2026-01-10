@@ -2,46 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>MitkoAI Turbo</title>
 
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <header class="top">
-    <h1>MitkoAI <span>Turbo</span></h1>
 
-    <div class="tabs">
-      <button onclick="UI.showTab('chat')">💬 Chat</button>
-      <button onclick="UI.showTab('updates')">📜 Updates</button>
-    </div>
-  </header>
+  <div id="app">
 
-  <!-- CHAT TAB -->
-  <section id="chat" class="tab active">
-    <div id="messages"></div>
+    <!-- HEADER -->
+    <header>
+      <h1>MitkoAI <span>Turbo</span></h1>
+      <div class="tabs">
+        <button id="tab-chat" class="active">💬 Chat</button>
+        <button id="tab-updates">📜 Updates</button>
+      </div>
+    </header>
 
-    <div class="controls">
-      <input type="file" id="imageInput" accept="image/*" hidden />
-      <button onclick="document.getElementById('imageInput').click()">📷</button>
+    <!-- MAIN -->
+    <main>
+
+      <!-- CHAT -->
+      <section id="chat-view" class="view active">
+        <div id="messages"></div>
+      </section>
+
+      <!-- UPDATES -->
+      <section id="updates-view" class="view">
+        <div id="updates-content"></div>
+      </section>
+
+    </main>
+
+    <!-- INPUT -->
+    <footer>
+      <label class="image-btn">
+        📷
+        <input type="file" id="imageInput" accept="image/*" hidden />
+      </label>
 
       <input
         id="input"
+        type="text"
         placeholder="Ask MitkoAI something..."
         autocomplete="off"
       />
 
-      <button onclick="UI.send()">Send</button>
-    </div>
-  </section>
+      <button id="send">Send</button>
+    </footer>
 
-  <!-- UPDATES TAB -->
-  <section id="updates" class="tab">
-    <ul id="updateList"></ul>
-  </section>
+  </div>
 
   <script type="module" src="ui.js"></script>
-  <script type="module" src="updates.js"></script>
 </body>
 </html>
