@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MitkoAI Turbo</title>
-  <link rel="stylesheet" href="style.css?v=banana" />
+  <link rel="stylesheet" href="style.css?v=turbo">
 </head>
 
 <body>
@@ -20,33 +20,36 @@
       </div>
     </header>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN -->
     <main>
       <!-- CHAT -->
-      <div id="chat"></div>
+      <div id="chat" class="panel active"></div>
 
       <!-- UPDATES -->
-      <div id="updates" style="display:none;">
-        <p><strong>Turbo</strong> – 3 times better 🚀</p>
+      <div id="updates" class="panel">
+        <ul class="updates-list">
+          <li><b>0.1</b> – Basic UI</li>
+          <li><b>0.2</b> – Router online</li>
+          <li><b>Mini</b> – Mobile sanity fix</li>
+          <li><b>0.3</b> – UI rewrite</li>
+          <li><b>0.4</b> – Modular brain</li>
+          <li><b>0.5</b> – Memory system</li>
+          <li><b>0.6</b> – Fixing severe bugs</li>
+          <li><b>0.7</b> – Intelligence increased</li>
+          <li><b>Turbo</b> – 3× better 🚀</li>
+        </ul>
       </div>
     </main>
 
     <!-- INPUT BAR -->
     <div class="input-bar">
-      <button class="image-btn" id="imageBtn">📷</button>
-      <input
-        id="input"
-        type="text"
-        placeholder="Ask MitkoAI something..."
-        autocomplete="off"
-      />
-      <button id="sendBtn">Send</button>
+      <button id="imageBtn" class="icon-btn">📷</button>
+      <input id="input" placeholder="Ask MitkoAI something..." />
+      <button id="sendBtn" class="send-btn">Send</button>
     </div>
 
   </div>
 
-  <!-- SCRIPTS (ORDER MATTERS) -->
-  <script src="app.js?v=banana"></script>
-  <script src="ui.js?v=banana" defer></script>
+  <script src="ui.js?v=turbo" defer></script>
 </body>
 </html>
