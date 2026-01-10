@@ -1,4 +1,3 @@
-// fallback.js
 export function fallback() {
-  return "Sorry, I cannot understand this yet, I am still learning and trying to improve 😅";
+  return null; // 👈 DO NOT TALK BY DEFAULT
 }
