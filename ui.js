@@ -1,49 +1,72 @@
 import { route } from "./router.js";
+import { getUpdates } from "./updates.js";
 import { analyzeImage } from "./vision.js";
 
-let lastVision = null;
+const input = document.getElementById("input");
+const send = document.getElementById("send");
+const messages = document.getElementById("messages");
+const imageInput = document.getElementById("imageInput");
 
-window.UI = {
-  send() {
-    const input = document.getElementById("input");
-    const text = input.value.trim();
-    if (!text) return;
+const chatTab = document.getElementById("tab-chat");
+const updatesTab = document.getElementById("tab-updates");
+const chatView = document.getElementById("chat-view");
+const updatesView = document.getElementById("updates-view");
+const updatesContent = document.getElementById("updates-content");
 
-    UI.addMessage(text, "user");
-    input.value = "";
+let lastImage = null;
 
-    const reply = route(text, lastVision);
-    if (reply) UI.addMessage(reply, "ai");
-  },
+// tabs
+chatTab.onclick = () => switchTab(true);
+updatesTab.onclick = () => switchTab(false);
 
-  addMessage(text, type) {
-    const div = document.createElement("div");
-    div.className = `message ${type}`;
-    div.textContent = text;
-    document.getElementById("messages").appendChild(div);
-    div.scrollIntoView({ behavior: "smooth" });
+function switchTab(chat) {
+  chatTab.classList.toggle("active", chat);
+  updatesTab.classList.toggle("active", !chat);
+  chatView.classList.toggle("active", chat);
+  updatesView.classList.toggle("active", !chat);
+
+  if (!chat) {
+    updatesContent.innerHTML = getUpdates()
+      .map(u => `<div class="msg bot">${u}</div>`)
+      .join("");
   }
-};
+}
 
-// Image button
-document.getElementById("imageBtn").onclick = () =>
-  document.getElementById("imageInput").click();
+// messaging
+send.onclick = sendMessage;
+input.onkeydown = e => e.key === "Enter" && sendMessage();
 
-document.getElementById("imageInput").onchange = e => {
-  const file = e.target.files[0];
+function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+
+  addMessage(text, "user");
+  input.value = "";
+
+  if (text === "!image") {
+    if (!lastImage) {
+      addMessage("No image loaded yet.", "bot");
+      return;
+    }
+    addMessage(analyzeImage(lastImage), "bot");
+    return;
+  }
+
+  addMessage(route(text), "bot");
+}
+
+function addMessage(text, who) {
+  const div = document.createElement("div");
+  div.className = `msg ${who}`;
+  div.textContent = text;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+// image handling
+imageInput.onchange = () => {
+  const file = imageInput.files[0];
   if (!file) return;
-
-  const img = new Image();
-  const reader = new FileReader();
-
-  reader.onload = () => img.src = reader.result;
-  img.onload = () => {
-    lastVision = analyzeImage(img);
-    UI.addMessage(
-      "📷 Image received. Type !image to analyze.",
-      "ai"
-    );
-  };
-
-  reader.readAsDataURL(file);
+  lastImage = file;
+  addMessage("📷 Image loaded. Type !image to analyze it.", "bot");
 };
