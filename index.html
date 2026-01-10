@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MitkoAI Turbo</title>
-  <link rel="stylesheet" href="style.css?v=banana" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -19,23 +19,20 @@
       </div>
     </header>
 
-    <!-- MAIN CONTENT (ONLY ONE MAIN!) -->
     <main id="content">
       <div id="chat"></div>
       <div id="updates" style="display:none;"></div>
     </main>
 
-    <!-- INPUT BAR -->
     <div class="input-bar">
-      <button class="image-btn" id="imageBtn">📷</button>
+      <button id="imageBtn">📷</button>
       <input id="input" placeholder="Ask MitkoAI something..." />
       <button id="sendBtn">Send</button>
     </div>
 
   </div>
 
-  <!-- SCRIPTS -->
-  <script src="app.js?v=banana"></script>
-  <script src="ui.js?v=banana"></script>
+  <!-- IMPORTANT: UI loads AFTER DOM -->
+  <script src="ui.js" defer></script>
 </body>
 </html>
