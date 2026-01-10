@@ -2,17 +2,25 @@
 export function handleMath(text) {
   const t = text.trim();
 
-  // ONLY allow real math characters
-  if (!/^[\d\s+\-*/().?=]+$/.test(t)) {
-    return null; // VERY IMPORTANT
+  // Only allow PURE math characters
+  if (!/^[0-9+\-*/().\s]+$/.test(t)) {
+    return null;
   }
 
-  const replies = [
-    "This math is too complicated for me. I am still learning and trying to improve 🧠",
-    "I’m not confident with this math yet. Still learning 😅",
-    "Math detected, but I’m not ready to solve this one.",
-    "I’m still learning math. Try something simpler."
-  ];
+  try {
+    const result = Function(`"use strict"; return (${t})`)();
+    return `That equals ${result}.`;
+  } catch {
+    return pick([
+      "This math is too complicated for me right now 😵",
+      "I’m still learning math, sorry!",
+      "That calculation confused me a bit 😅",
+      "Math overload… try something simpler."
+    ]);
+  }
+}
 
-  return replies[Math.floor(Math.random() * replies.length)];
+// RNG helper
+function pick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
 }
