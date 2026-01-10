@@ -6,11 +6,19 @@ import { handleLanguage } from "./language.js";
 import { fallback } from "./fallback.js";
 
 export function route(text) {
-  return (
-    handleCommands(text) ??
-    handleMath(text) ??
-    handleQuestions(text) ??
-    handleLanguage(text) ??
-    fallback()
-  );
+  let result;
+
+  result = handleCommands(text);
+  if (result !== null) return result;
+
+  result = handleMath(text);
+  if (result !== null) return result;
+
+  result = handleQuestions(text);
+  if (result !== null) return result;
+
+  result = handleLanguage(text);
+  if (result !== null) return result;
+
+  return fallback();
 }
