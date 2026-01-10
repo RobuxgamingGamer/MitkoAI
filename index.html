@@ -2,16 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MitkoAI Turbo</title>
-
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <div id="app">
 
-    <!-- HEADER -->
     <header>
       <h1>MitkoAI <span>Turbo</span></h1>
       <div class="tabs">
@@ -20,40 +17,23 @@
       </div>
     </header>
 
-    <!-- MAIN -->
     <main>
-
       <!-- CHAT -->
-      <section id="chat-view" class="view active">
-        <div id="messages"></div>
-      </section>
+      <div id="chat"></div>
 
       <!-- UPDATES -->
-      <section id="updates-view" class="view">
-        <div id="updates-content"></div>
-      </section>
-
+      <div id="updates" style="display:none;"></div>
     </main>
 
-    <!-- INPUT -->
-    <footer>
-      <label class="image-btn">
-        📷
-        <input type="file" id="imageInput" accept="image/*" hidden />
-      </label>
-
-      <input
-        id="input"
-        type="text"
-        placeholder="Ask MitkoAI something..."
-        autocomplete="off"
-      />
-
-      <button id="send">Send</button>
-    </footer>
+    <!-- INPUT BAR -->
+    <div class="input-bar">
+      <button class="image-btn" id="imageBtn">📷</button>
+      <input id="input" placeholder="Ask MitkoAI something..." />
+      <button id="sendBtn">Send</button>
+    </div>
 
   </div>
 
-  <script type="module" src="ui.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
