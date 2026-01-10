@@ -1,24 +1,35 @@
+/* =========================
+   RESET
+========================= */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+}
+
+html, body {
+  height: 100%;
 }
 
 body {
-  background: radial-gradient(circle at top, #0a1a33, #02040a);
-  color: white;
-  height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #0a1a2f, #020814);
+  color: #ffffff;
   overflow: hidden;
 }
 
+/* =========================
+   APP LAYOUT
+========================= */
 #app {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 header {
   padding: 16px;
   text-align: center;
@@ -26,108 +37,153 @@ header {
 
 header h1 {
   font-size: 28px;
+  font-weight: 800;
 }
 
-header span {
+header h1 span {
   color: #4da3ff;
-  text-shadow: 0 0 12px #4da3ff;
+  text-shadow: 0 0 14px #4da3ff;
 }
 
+/* =========================
+   TABS
+========================= */
 .tabs {
-  margin-top: 10px;
   display: flex;
   justify-content: center;
   gap: 12px;
+  margin-bottom: 8px;
 }
 
 .tabs button {
-  padding: 8px 16px;
+  padding: 8px 18px;
   border-radius: 999px;
   border: none;
   background: #1c2e4a;
   color: white;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .tabs button.active {
   background: #4da3ff;
-  box-shadow: 0 0 16px #4da3ff;
+  box-shadow: 0 0 18px #4da3ff;
 }
 
-/* MAIN */
+.tabs button:active {
+  transform: scale(0.96);
+}
+
+/* =========================
+   MAIN CONTENT
+========================= */
 main {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
-.view {
-  display: none;
-  height: 100%;
+/* =========================
+   CHAT AREA
+========================= */
+#chat {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Messages */
+.msg {
+  max-width: 85%;
+  padding: 12px 14px;
+  border-radius: 18px;
+  line-height: 1.35;
+  animation: fadeIn 0.2s ease;
+}
+
+.msg.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #4da3ff, #2b78ff);
+  box-shadow: 0 0 12px rgba(77,163,255,0.5);
+}
+
+.msg.bot {
+  align-self: flex-start;
+  background: #0f1f36;
+  border: 1px solid #1f3c66;
+}
+
+/* =========================
+   INPUT BAR (iOS SAFE)
+========================= */
+.input-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  background: #020814;
+  border-top: 1px solid #1f3c66;
+}
+
+.input-bar input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 999px;
+  border: none;
+  outline: none;
+  background: #0f1f36;
+  color: white;
+  font-size: 16px;
+}
+
+.input-bar button {
+  padding: 10px 14px;
+  border-radius: 50%;
+  border: none;
+  background: #4da3ff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 0 14px #4da3ff;
+}
+
+.input-bar button:active {
+  transform: scale(0.95);
+}
+
+/* =========================
+   IMAGE BUTTON
+========================= */
+.image-btn {
+  background: #1c2e4a;
+  box-shadow: 0 0 10px #1c2e4a;
+}
+
+/* =========================
+   UPDATES TAB
+========================= */
+#updates {
+  flex: 1;
   overflow-y: auto;
   padding: 16px;
 }
 
-.view.active {
-  display: block;
-}
-
-/* MESSAGES */
-#messages {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.msg {
-  max-width: 80%;
-  padding: 12px 16px;
-  border-radius: 18px;
-  animation: fadeIn 0.2s ease;
-}
-
-.user {
-  align-self: flex-end;
-  background: linear-gradient(135deg, #4da3ff, #2b6cff);
-}
-
-.bot {
-  align-self: flex-start;
+.update {
   background: #0f1f36;
-  box-shadow: 0 0 12px rgba(77,163,255,0.3);
-}
-
-/* FOOTER */
-footer {
-  display: flex;
-  gap: 8px;
+  border: 1px solid #1f3c66;
+  border-radius: 14px;
   padding: 12px;
-  border-top: 1px solid #1c2e4a;
+  margin-bottom: 10px;
 }
 
-footer input {
-  flex: 1;
-  padding: 12px;
-  border-radius: 999px;
-  border: none;
-  outline: none;
-}
-
-footer button {
-  padding: 0 16px;
-  border-radius: 999px;
-  border: none;
-  background: #4da3ff;
-  color: white;
-}
-
-.image-btn {
-  display: flex;
-  align-items: center;
-  padding: 0 12px;
-  cursor: pointer;
-}
-
-/* ANIMATIONS */
+/* =========================
+   ANIMATIONS
+========================= */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -135,6 +191,19 @@ footer button {
   }
   to {
     opacity: 1;
-    transform: none;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   MOBILE FIXES
+========================= */
+@supports (-webkit-touch-callout: none) {
+  body {
+    height: -webkit-fill-available;
+  }
+
+  #app {
+    height: -webkit-fill-available;
   }
 }
