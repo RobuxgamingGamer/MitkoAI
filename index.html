@@ -6,9 +6,11 @@
   <title>MitkoAI Turbo</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <div id="app">
 
+    <!-- HEADER -->
     <header>
       <h1>MitkoAI <span>Turbo</span></h1>
       <div class="tabs">
@@ -17,23 +19,27 @@
       </div>
     </header>
 
-    <main>
-      <!-- CHAT -->
+    <!-- MAIN CONTENT (ONLY ONE MAIN) -->
+    <main style="flex:1; pointer-events:auto;">
       <div id="chat"></div>
-
-      <!-- UPDATES -->
       <div id="updates" style="display:none;"></div>
     </main>
 
     <!-- INPUT BAR -->
     <div class="input-bar">
       <button class="image-btn" id="imageBtn">📷</button>
-      <input id="input" placeholder="Ask MitkoAI something..." />
+      <input
+        id="input"
+        type="text"
+        placeholder="Ask MitkoAI something..."
+        autocomplete="off"
+      />
       <button id="sendBtn">Send</button>
     </div>
 
   </div>
 
+  <!-- SCRIPTS -->
   <script src="app.js"></script>
   <script src="ui.js" defer></script>
 </body>
