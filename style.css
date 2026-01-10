@@ -1,115 +1,142 @@
-/* ===== GLOBAL ===== */
 * {
   box-sizing: border-box;
-  animation: fadeIn 0.6s ease both;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont;
 }
 
 body {
-  background: radial-gradient(circle at top, #0b1c3d, #040a18);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  overflow-x: hidden;
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #0b1220, #05070f);
+  color: white;
+  display: flex;
+  flex-direction: column;
 }
 
-/* ===== FADE ===== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* HEADER */
+.top {
+  padding: 14px;
+  text-align: center;
 }
 
-/* ===== TABS ===== */
-.tab {
-  animation: tabSlide 0.4s ease both;
+.top h1 {
+  margin: 0;
+  font-weight: 800;
 }
 
-@keyframes tabSlide {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ===== CHAT MESSAGES ===== */
-.message {
-  animation: messagePop 0.35s ease both;
-}
-
-@keyframes messagePop {
-  from {
-    opacity: 0;
-    transform: scale(0.96) translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-/* ===== USER MESSAGE ===== */
-.message.user {
-  animation-delay: 0.05s;
-}
-
-/* ===== AI MESSAGE ===== */
-.message.ai {
-  animation-delay: 0.1s;
-}
-
-/* ===== INPUT BAR ===== */
-input, button {
-  transition: all 0.25s ease;
-}
-
-input:focus {
-  box-shadow: 0 0 12px rgba(77,163,255,0.5);
-  transform: scale(1.02);
-}
-
-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(77,163,255,0.6);
-}
-
-/* ===== UPDATES LIST ===== */
-#updateList li {
-  list-style: none;
-  margin: 8px 0;
-  padding-left: 10px;
-  position: relative;
-  animation: listFloat 2.5s ease-in-out infinite;
-}
-
-#updateList li:nth-child(odd) {
-  animation-delay: 0.4s;
-}
-
-@keyframes listFloat {
-  0% {
-    transform: translateY(0);
-    opacity: 0.85;
-  }
-  50% {
-    transform: translateY(-4px);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 0.85;
-  }
-}
-
-/* ===== TURBO EXTRA ===== */
-.turbo {
+.top span {
   color: #4da3ff;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.tabs button {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #1e90ff, #4da3ff);
+  color: white;
   font-weight: bold;
-  text-shadow: 0 0 12px rgba(77,163,255,0.8);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tabs button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 14px #4da3ff;
+}
+
+/* TABS CONTENT */
+.tab {
+  display: none;
+  flex: 1;
+  overflow: hidden;
+}
+
+.tab.active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* CHAT */
+#messages {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.message {
+  max-width: 78%;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 18px;
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #1e90ff, #4da3ff);
+}
+
+.ai {
+  align-self: flex-start;
+  background: #15213b;
+  border: 1px solid #2f6fed;
+}
+
+/* INPUT BAR */
+.controls {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  background: rgba(0,0,0,0.3);
+}
+
+.controls input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+}
+
+.controls button {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: none;
+  background: #1e90ff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* UPDATES */
+#updates {
+  padding: 16px;
+}
+
+#updateList li {
+  margin-bottom: 8px;
+  animation: fade 0.3s ease;
+}
+
+@keyframes fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
