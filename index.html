@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MitkoAI Turbo</title>
-  <link rel="stylesheet" href="style.css?v=turbo">
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -23,33 +23,35 @@
     <!-- MAIN -->
     <main>
       <!-- CHAT -->
-      <div id="chat" class="panel active"></div>
+      <section id="chat" class="tab active">
+        <p class="placeholder">Chat will appear here.</p>
+      </section>
 
       <!-- UPDATES -->
-      <div id="updates" class="panel">
+      <section id="updates" class="tab">
         <ul class="updates-list">
-          <li><b>0.1</b> – Basic UI</li>
-          <li><b>0.2</b> – Router online</li>
-          <li><b>Mini</b> – Mobile sanity fix</li>
-          <li><b>0.3</b> – UI rewrite</li>
-          <li><b>0.4</b> – Modular brain</li>
-          <li><b>0.5</b> – Memory system</li>
-          <li><b>0.6</b> – Fixing severe bugs</li>
-          <li><b>0.7</b> – Intelligence increased</li>
-          <li><b>Turbo</b> – 3× better 🚀</li>
+          <li>0.1 – Basic UI</li>
+          <li>0.2 – Router online</li>
+          <li>Mini – Mobile sanity fix</li>
+          <li>0.3 – UI rewrite</li>
+          <li>0.4 – Modular brain</li>
+          <li>0.5 – Memory system</li>
+          <li>0.6 – Fixing severe bugs</li>
+          <li>0.7 – Intelligence increased</li>
+          <li><strong>Turbo – 3× better 🚀</strong></li>
         </ul>
-      </div>
+      </section>
     </main>
 
     <!-- INPUT BAR -->
     <div class="input-bar">
-      <button id="imageBtn" class="icon-btn">📷</button>
-      <input id="input" placeholder="Ask MitkoAI something..." />
-      <button id="sendBtn" class="send-btn">Send</button>
+      <button class="image-btn">📷</button>
+      <input type="text" placeholder="Ask MitkoAI something..." />
+      <button class="send-btn">Send</button>
     </div>
 
   </div>
 
-  <script src="ui.js?v=turbo" defer></script>
+  <script src="ui.js" defer></script>
 </body>
 </html>
