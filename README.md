@@ -1,2 +1,2 @@
 # MitkoAI
-MitkoAI is an experimental humanoid artificial intelligence created by Mitko, designed to simulate intelligent conversation and human-like reasoning. This project is built for learning, creativity, and future development. ⚠️ Early test model — no safety or moderation systems. Do not share personal or sensitive data.
+MitkoAI is an experimental, rule-based assistant built for learning, logic, and testing ideas. It includes safety measures and basic protections, but correct behavior, accuracy, and safety are not guaranteed. This project is under active development and should be used responsibly and at your own discretion.
