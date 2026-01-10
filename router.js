@@ -1,49 +1,36 @@
-// router.js
 import { handleQuestions } from "./questions.js";
 import { handleMath } from "./math.js";
 import { handleCommands } from "./commands.js";
 import { handleLanguage } from "./language.js";
 import { checkSafety } from "./safety.js";
 
-// RNG helper
-function pick(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
-const FUN_FALLBACKS = [
-  "Hmm… I’m not sure yet 🤔",
-  "That went over my circuits 😅",
-  "I don’t understand that yet.",
-  "My brain lagged for a second ⚡",
-  "Interesting… but I can’t answer that yet."
-];
-
-export function route(text) {
+export function route(text, vision) {
   const input = text.trim();
   if (!input) return "";
 
-  // 1) SAFETY — always first
+  // SAFETY FIRST
   const safety = checkSafety(input);
-  if (safety) {
-    return safety.message;
+  if (safety) return safety.message;
+
+  // IMAGE COMMAND
+  if (input === "!image") {
+    if (!vision) return "No image loaded yet.";
+
+    return (
+      "🖼️ Image Analysis\n" +
+      `• Avg color: ${vision.avgColor} (${vision.color})\n` +
+      `• Brightness: ${vision.brightness} (${vision.exposure})\n` +
+      `• Texture: ${vision.texture}\n` +
+      `• Text detected: ${vision.textLikely ? "Likely" : "Unlikely"}\n\n` +
+      "Visual understanding is approximate."
+    );
   }
 
-  // 2) COMMANDS (!shut up, unmute, etc.)
-  const cmd = handleCommands(input);
-  if (cmd) return cmd;
-
-  // 3) MATH (only if it really is math)
-  const math = handleMath(input);
-  if (math) return math;
-
-  // 4) QUESTIONS / CONVERSATION
-  const q = handleQuestions(input);
-  if (q) return q;
-
-  // 5) SPECIAL LANGUAGE (TREE, Graham, etc.)
-  const lang = handleLanguage(input);
-  if (lang) return lang;
-
-  // 6) FUN FALLBACK (no apology spam)
-  return pick(FUN_FALLBACKS);
+  return (
+    handleCommands(input) ||
+    handleMath(input) ||
+    handleQuestions(input) ||
+    handleLanguage(input) ||
+    "Hmm… I’m not sure how to answer that yet 🤔"
+  );
 }
