@@ -1,5 +1,4 @@
-// questions.js
-// MitkoAI 0.6 – Categorized Question Engine (BIG + TIGHT)
+// questions.js — MitkoAI BULK Question Engine 🧠🔥
 
 function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -7,10 +6,10 @@ function pick(arr) {
 
 function deeper() {
   return pick([
+    "",
     " Want to go deeper?",
-    " I can explain this further.",
-    " This topic goes much deeper.",
-    ""
+    " I can explain more.",
+    " This gets deeper than it looks."
   ]);
 }
 
@@ -19,258 +18,132 @@ export function handleQuestions(text) {
 
   const QA = [
 
-    /* ================= REALITY / EXISTENCE ================= */
+    /* ================= IDENTITY ================= */
 
-    [/^what is (life|reality|existence|truth)\??$/, () =>
+    [/^who are you\??$/, () =>
+      "I’m MitkoAI — a custom-built AI project created by Mitko 🧠"
+    ],
+
+    [/^who made you\??$/, () =>
+      "I was created by Mitko, step by step, from scratch 💻"
+    ],
+
+    [/^who is your owner\??$/, () =>
+      "My owner and creator is Mitko."
+    ],
+
+    /* ================= GREETINGS ================= */
+
+    [/^(hello|hi|hey|yo|sup|heyy+|hii+)[!]*$/, () =>
       pick([
-        "These describe how we experience being alive.",
-        "They are explored through philosophy and science.",
-        "There is no single final answer."
-      ]) + deeper()
+        "Hey! What’s on your mind?",
+        "Hi 👋 What do you want to do?",
+        "Hello! I’m listening.",
+        "Hey! Let’s talk."
+      ])
+    ],
+
+    [/^how are you\??$/, () =>
+      pick([
+        "I’m doing good 🙂",
+        "All systems running fine.",
+        "Feeling sharp today 🧠"
+      ])
+    ],
+
+    [/^are you okay\??$/, () =>
+      pick([
+        "Yep, everything’s fine.",
+        "All good here.",
+        "Running smoothly."
+      ])
+    ],
+
+    /* ================= AI / TECH ================= */
+
+    [/^what is ai\??$/, () =>
+      "AI is software designed to process information and respond intelligently."
+    ],
+
+    [/^can you think\??$/, () =>
+      "I don’t think like humans, but I can process logic and patterns."
+    ],
+
+    [/^are you real\??$/, () =>
+      "I’m real software — not conscious, but functional."
+    ],
+
+    /* ================= BIG NUMBERS ================= */
+
+    [/^graham('?s)? number\??$/, () =>
+      "Graham’s number is an insanely large finite number once used in a math proof."
+    ],
+
+    [/^rayo('?s)? number\??$/, () =>
+      "Rayo’s number is so large it completely dwarfs Graham’s number."
+    ],
+
+    [/^tree\((\d+)\)\??$/, (m) => {
+      const n = m[1];
+      if (n === "1") return "TREE(1) = 1.";
+      if (n === "2") return "TREE(2) is already unimaginably large.";
+      if (n === "3")
+        return "TREE(3) is so large it dwarfs Graham’s number — yet it is still finite.";
+      return `TREE(${n}) grows faster than almost any number humans can describe.`;
+    }],
+
+    [/^infinity$/, () =>
+      "Infinity isn’t a number — it’s a concept of endlessness."
+    ],
+
+    /* ================= LIFE / PHILOSOPHY ================= */
+
+    [/^what is life\??$/, () =>
+      "Life is the experience of existence, awareness, and change." + deeper()
     ],
 
     [/^what is the meaning of life\??$/, () =>
       pick([
-        "Many believe meaning is created through purpose and growth.",
-        "Meaning changes over time.",
-        "Connection and contribution often create meaning."
+        "Meaning is something you create.",
+        "Purpose comes from growth and connection.",
+        "There’s no single answer — and that’s okay."
       ]) + deeper()
     ],
 
-    [/^is life (meaningless|worth it)\??$/, () =>
-      pick([
-        "Life can feel meaningless during hard periods.",
-        "Meaning is often built, not discovered.",
-        "Feeling this doesn’t define your future."
-      ]) + deeper()
+    /* ================= EMOTIONS ================= */
+
+    [/^why do i feel (sad|empty|lost)\??$/, () =>
+      "Those feelings usually come from stress or overload. You’re not broken."
     ],
 
-    /* ================= EMOTIONS / MENTAL ================= */
-
-    [/^why (am i|do i feel) (sad|empty|lost|lonely|tired|anxious)\??$/, () =>
-      pick([
-        "These feelings often come from stress or disconnection.",
-        "They are signals, not flaws.",
-        "You’re not broken for feeling this way."
-      ]) + deeper()
+    [/^how do i calm down\??$/, () =>
+      "Slow breathing and reducing stimulation helps more than forcing calm."
     ],
 
-    [/^how do i (be happy|feel better|calm down|stop overthinking)\??$/, () =>
+    /* ================= RANDOM / FUN ================= */
+
+    [/^tell me a joke$/, () =>
       pick([
-        "Small consistent habits matter more than big changes.",
-        "Reducing mental overload helps.",
-        "Presence improves emotional clarity."
-      ]) + deeper()
-    ],
-
-    [/^what is (happiness|confidence|self love)\??$/, () =>
-      pick([
-        "These develop over time, not instantly.",
-        "They grow through self-acceptance and action.",
-        "They are skills, not traits."
-      ]) + deeper()
-    ],
-
-    /* ================= SELF IMPROVEMENT ================= */
-
-    [/^how do i (improve|fix|change) my life\??$/, () =>
-      pick([
-        "Life changes through small consistent actions.",
-        "Clarity comes before change.",
-        "Progress is gradual."
-      ]) + deeper()
-    ],
-
-    [/^how do i (get motivated|build discipline|stop procrastinating)\??$/, () =>
-      pick([
-        "Motivation often follows action.",
-        "Lowering the starting effort helps.",
-        "Discipline grows from routines."
-      ]) + deeper()
-    ],
-
-    [/^how do i (build habits|stop bad habits)\??$/, () =>
-      pick([
-        "Habits form through repetition.",
-        "Environment matters more than willpower.",
-        "Consistency beats intensity."
-      ]) + deeper()
-    ],
-
-    /* ================= SOCIAL / RELATIONSHIPS ================= */
-
-    [/^how do i (make friends|talk to people|improve social skills)\??$/, () =>
-      pick([
-        "Listening matters more than talking.",
-        "Practice builds confidence.",
-        "Most people are focused on themselves."
-      ]) + deeper()
-    ],
-
-    [/^why do people (feel lonely|compare themselves|seek validation)\??$/, () =>
-      pick([
-        "Humans naturally seek belonging.",
-        "Comparison comes from insecurity.",
-        "Connection reduces loneliness."
-      ]) + deeper()
-    ],
-
-    /* ================= BRAIN / LEARNING ================= */
-
-    [/^how does (the brain|memory|motivation|discipline) work\??$/, () =>
-      pick([
-        "These rely on neural connections.",
-        "Repetition strengthens learning.",
-        "The brain adapts over time."
-      ]) + deeper()
-    ],
-
-    [/^how do i (learn faster|study better|get smarter)\??$/, () =>
-      pick([
-        "Active learning works best.",
-        "Sleep and rest are critical.",
-        "Understanding beats memorization."
-      ]) + deeper()
-    ],
-
-    /* ================= MATH ================= */
-
-    [/^what is (math|algebra|numbers)\??$/, () =>
-      pick([
-        "Math studies patterns and relationships.",
-        "Math is a language of logic.",
-        "Math models reality."
+        "Why do programmers hate bugs? Because they’re not features 🐛",
+        "I tried to be funny once. It compiled."
       ])
     ],
 
-    [/^how much is (\d+)\s*([\+\-\*\/])\s*(\d+)\??$/, (m) =>
-      String(eval(`${m[1]}${m[2]}${m[3]}`))
-    ],
-
-    /* ================= AI ================= */
-
-    [/^what is (ai|artificial intelligence)\??$/, () =>
+    [/^random$/, () =>
       pick([
-        "AI is software that processes patterns.",
-        "AI imitates certain problem-solving abilities.",
-        "AI does not think like humans."
-      ]) + deeper()
-    ],
-
-    [/^can ai (think|feel|be conscious)\??$/, () =>
-      pick([
-        "AI does not have awareness or emotions.",
-        "AI follows logic, not intent.",
-        "AI simulates understanding."
-      ]) + deeper()
-    ],
-
-    [/^is ai (dangerous|safe|biased)\??$/, () =>
-      pick([
-        "AI depends on how it is designed and used.",
-        "Bias can come from data.",
-        "Oversight is important."
-      ]) + deeper()
-    ],
-
-    /* ================= GAMES ================= */
-
-    [/^what is (a )?(game|video game)\??$/, () =>
-      pick([
-        "A game is an interactive system with rules and goals.",
-        "Games provide challenge and engagement.",
-        "Games simulate experiences."
-      ]) + deeper()
-    ],
-
-    [/^why do people play games\??$/, () =>
-      pick([
-        "For fun, creativity, or challenge.",
-        "Games provide achievement.",
-        "Games offer escape."
-      ]) + deeper()
-    ],
-
-    /* ================= ROBLOX ================= */
-
-    [/^what is roblox\??$/, () =>
-      pick([
-        "Roblox is a platform where users create and play games.",
-        "Roblox mixes gaming and development.",
-        "Roblox is community-driven."
-      ]) + deeper()
-    ],
-
-    [/^is roblox safe\??$/, () =>
-      pick([
-        "Roblox can be safe with proper settings.",
-        "Parental controls help.",
-        "Online awareness matters."
-      ]) + deeper()
-    ],
-
-    /* ================= MINECRAFT ================= */
-
-    [/^what is minecraft\??$/, () =>
-      pick([
-        "Minecraft is a sandbox game focused on creativity.",
-        "Minecraft allows building and exploration.",
-        "Minecraft encourages experimentation."
-      ]) + deeper()
-    ],
-
-    [/^why is minecraft popular\??$/, () =>
-      pick([
-        "Creative freedom keeps it popular.",
-        "Mods extend gameplay.",
-        "It appeals to all ages."
-      ]) + deeper()
-    ],
-
-    /* ================= SPACE / UNIVERSE ================= */
-
-    [/^are we alone in the universe\??$/, () =>
-      pick([
-        "There is no confirmed evidence yet.",
-        "The universe is extremely large.",
-        "The question remains open."
-      ]) + deeper()
-    ],
-
-    [/^do aliens exist\??$/, () =>
-      pick([
-        "No proof yet, but it’s possible.",
-        "Many scientists consider it plausible.",
-        "We don’t know for sure."
-      ]) + deeper()
-    ],
-
-    /* ================= SAFETY ================= */
-
-    [/^how do i stay safe online\??$/, () =>
-      pick([
-        "Avoid sharing personal information.",
-        "Be careful with links.",
-        "Use strong passwords."
-      ]) + deeper()
-    ],
-
-    /* ================= IDENTITY ================= */
-
-    [/^who am i really\??$/, () =>
-      pick([
-        "Identity is shaped by choices and experiences.",
-        "You define yourself over time.",
-        "Identity is not fixed."
-      ]) + deeper()
+        "The universe is under no obligation to make sense.",
+        "You’re closer to success than you think.",
+        "Sleep improves debugging by 300% 😴"
+      ])
     ]
   ];
 
   for (const [pattern, reply] of QA) {
-    if (pattern.test(t)) {
-      return typeof reply === "function" ? reply() : reply;
+    const match = t.match(pattern);
+    if (match) {
+      return typeof reply === "function" ? reply(match) : reply;
     }
   }
 
-  return "Sorry, I cannot understand this yet, I am still learning and trying to improve.";
+  return null; // IMPORTANT: let router decide fallback
 }
