@@ -4,12 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MitkoAI Turbo</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=banana" />
 </head>
 
 <body>
   <div id="app">
 
+    <!-- HEADER -->
     <header>
       <h1>MitkoAI <span>Turbo</span></h1>
 
@@ -19,20 +20,33 @@
       </div>
     </header>
 
-    <main id="content">
+    <!-- MAIN CONTENT -->
+    <main>
+      <!-- CHAT -->
       <div id="chat"></div>
-      <div id="updates" style="display:none;"></div>
+
+      <!-- UPDATES -->
+      <div id="updates" style="display:none;">
+        <p><strong>Turbo</strong> – 3 times better 🚀</p>
+      </div>
     </main>
 
+    <!-- INPUT BAR -->
     <div class="input-bar">
-      <button id="imageBtn">📷</button>
-      <input id="input" placeholder="Ask MitkoAI something..." />
+      <button class="image-btn" id="imageBtn">📷</button>
+      <input
+        id="input"
+        type="text"
+        placeholder="Ask MitkoAI something..."
+        autocomplete="off"
+      />
       <button id="sendBtn">Send</button>
     </div>
 
   </div>
 
-  <!-- IMPORTANT: UI loads AFTER DOM -->
-  <script src="ui.js" defer></script>
+  <!-- SCRIPTS (ORDER MATTERS) -->
+  <script src="app.js?v=banana"></script>
+  <script src="ui.js?v=banana" defer></script>
 </body>
 </html>
