@@ -1,22 +1,18 @@
 // math.js
-function pick(arr) {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
-
 export function handleMath(text) {
-  // allow ONLY numbers and math symbols
-  if (!/^[\d\s+\-*/().]+$/.test(text)) return null;
+  const t = text.trim();
 
-  try {
-    const result = Function(`"use strict"; return (${text})`)();
-    return `That equals ${result}.`;
-  } catch {
-    return pick([
-      "This math is too complicated for me, I am still learning and trying to improve.",
-      "I can’t solve this yet, but I’m working on getting better.",
-      "That calculation is beyond my current abilities.",
-      "This math goes a bit too far for me right now.",
-      "I’m still learning — this one is too complex."
-    ]);
+  // ONLY allow real math characters
+  if (!/^[\d\s+\-*/().?=]+$/.test(t)) {
+    return null; // VERY IMPORTANT
   }
+
+  const replies = [
+    "This math is too complicated for me. I am still learning and trying to improve 🧠",
+    "I’m not confident with this math yet. Still learning 😅",
+    "Math detected, but I’m not ready to solve this one.",
+    "I’m still learning math. Try something simpler."
+  ];
+
+  return replies[Math.floor(Math.random() * replies.length)];
 }
