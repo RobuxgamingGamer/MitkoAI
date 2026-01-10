@@ -2,64 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MitkoAI Turbo</title>
 
-  <!-- Styles -->
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
+  <header class="top">
+    <h1>MitkoAI <span>Turbo</span></h1>
 
-  <!-- TOP BAR -->
-  <header class="topbar">
-    <h1>MitkoAI <span class="version">Turbo</span></h1>
+    <div class="tabs">
+      <button onclick="UI.showTab('chat')">💬 Chat</button>
+      <button onclick="UI.showTab('updates')">📜 Updates</button>
+    </div>
   </header>
 
-  <!-- MAIN -->
-  <main id="main">
+  <!-- CHAT TAB -->
+  <section id="chat" class="tab active">
+    <div id="messages"></div>
 
-    <!-- CHAT TAB -->
-    <section id="chatTab" class="tab active">
-      <div id="messages" class="chat"></div>
-    </section>
+    <div class="controls">
+      <input type="file" id="imageInput" accept="image/*" hidden />
+      <button onclick="document.getElementById('imageInput').click()">📷</button>
 
-    <!-- UPDATES TAB -->
-    <section id="updatesTab" class="tab">
-      <ul id="updateList"></ul>
-    </section>
+      <input
+        id="input"
+        placeholder="Ask MitkoAI something..."
+        autocomplete="off"
+      />
 
-  </main>
+      <button onclick="UI.send()">Send</button>
+    </div>
+  </section>
 
-  <!-- INPUT BAR -->
-  <div class="input-bar">
-    <input
-      id="input"
-      type="text"
-      placeholder="Ask MitkoAI something..."
-      autocomplete="off"
-    />
+  <!-- UPDATES TAB -->
+  <section id="updates" class="tab">
+    <ul id="updateList"></ul>
+  </section>
 
-    <input type="file" id="imageInput" accept="image/*" hidden />
-    <button id="imageBtn" title="Upload image">📷</button>
-
-    <button id="send">Send</button>
-  </div>
-
-  <!-- NAV BAR -->
-  <nav class="nav">
-    <button onclick="UI.showTab('chatTab')">💬 Chat</button>
-    <button onclick="UI.showTab('updatesTab')">📜 Updates</button>
-  </nav>
-
-  <!-- SCRIPTS -->
-  <script type="module" src="./ui.js"></script>
-  <script type="module" src="./updates.js"></script>
-
+  <script type="module" src="ui.js"></script>
+  <script type="module" src="updates.js"></script>
 </body>
 </html>
