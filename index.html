@@ -4,32 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>MitkoAI Turbo</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=evil-orange">
 </head>
 
 <body>
   <div id="app">
 
-    <!-- HEADER -->
     <header>
       <h1>MitkoAI <span>Turbo</span></h1>
-
       <div class="tabs">
         <button id="tab-chat" class="active">💬 Chat</button>
         <button id="tab-updates">📜 Updates</button>
       </div>
     </header>
 
-    <!-- MAIN -->
     <main>
-      <!-- CHAT -->
-      <section id="chat" class="tab active">
-        <p class="placeholder">Chat will appear here.</p>
-      </section>
+      <section id="chat" class="panel active"></section>
 
-      <!-- UPDATES -->
-      <section id="updates" class="tab">
-        <ul class="updates-list">
+      <section id="updates" class="panel">
+        <ul>
           <li>0.1 – Basic UI</li>
           <li>0.2 – Router online</li>
           <li>Mini – Mobile sanity fix</li>
@@ -38,20 +31,18 @@
           <li>0.5 – Memory system</li>
           <li>0.6 – Fixing severe bugs</li>
           <li>0.7 – Intelligence increased</li>
-          <li><strong>Turbo – 3× better 🚀</strong></li>
+          <li><b>Turbo – 3× better 🚀</b></li>
         </ul>
       </section>
     </main>
 
-    <!-- INPUT BAR -->
     <div class="input-bar">
-      <button class="image-btn">📷</button>
-      <input type="text" placeholder="Ask MitkoAI something..." />
-      <button class="send-btn">Send</button>
+      <input id="input" placeholder="Ask MitkoAI something…" />
+      <button id="sendBtn">Send</button>
     </div>
 
   </div>
 
-  <script src="ui.js" defer></script>
+  <script src="ui.js?v=evil-orange" defer></script>
 </body>
 </html>
