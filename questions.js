@@ -144,6 +144,12 @@ export function handleQuestions(text) {
       return typeof reply === "function" ? reply(match) : reply;
     }
   }
-
+  
+    [/^What is GTA V?$/, () =>
+      pick([
+        "GTA V is a game that you can play with different characters and do missions,heists,etc!",
+        "Grand theft auto V is a fun game that you play in Los santos and do missions with different characters"
+      ])
+    ],
   return null; // IMPORTANT: let router decide fallback
 }
